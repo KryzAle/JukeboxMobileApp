@@ -7,6 +7,36 @@ using UnityEngine.Networking;
 
 public class BeatDetector : MonoBehaviour
 {
+    Rigidbody cuboBassClon;
+
+    Rigidbody cuboLowClon;
+
+
+    public Transform targetPositionBass;
+
+    public Transform targetPositionLow;
+
+
+    public Rigidbody cuboBass;
+
+    public Rigidbody cuboLow;
+
+
+    public float tiempoBassDisparo;
+
+    public float tiempoLowDisparo;
+
+
+    private float inicioTimeBass;
+
+    private float inicioTimeLow;
+
+
+    public Transform lanzadorBass;
+
+    public Transform lanzadorLow;
+
+    public float velocidadCubo = 5f;
     public AudioClip startingAudioClip;
 
     public AudioSource audioSource;            // 
@@ -43,11 +73,13 @@ public class BeatDetector : MonoBehaviour
     void Start()
     {
         StartCoroutine(GetAudioClip());
+
+
     }
 
     IEnumerator GetAudioClip()
     {
-        using (var uwr = UnityWebRequestMultimedia.GetAudioClip("https://cdnm.meln.top/mr/Prince%20Royce%20-%20Rech%C3%A1zame.mp3?session_key=9a890e00854aa056c17f1a5438ebd7b6&hash=ecd445fe7dde95154916bb92778fea65", AudioType.MPEG))
+        using (var uwr = UnityWebRequestMultimedia.GetAudioClip("https://dl2.freemp3downloads.online/file/youtubew2C6RhQBYlg128.mp3?fn=Jhay%20Cortez%2C%20J.%20Balvin%2C%20Bad%20Bunny%20-%20No%20Me%20Conoce%20(Remix).mp3", AudioType.MPEG))
         {
             yield return uwr.SendWebRequest();
             if (uwr.isNetworkError || uwr.isHttpError)
@@ -59,6 +91,7 @@ public class BeatDetector : MonoBehaviour
             ChangeClip(clip);
         }
     }
+
     void Awake()
     {
         // initialize
@@ -84,39 +117,44 @@ public class BeatDetector : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // restart track by pressing space
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            audioSource.Stop();
-            audioSource.Play();
-        }
-
-        // stop music by pressing S
-        if (Input.GetKeyDown(KeyCode.S))
-        {
-            audioSource.Stop();
-        }
-
         // Check if current sample are above statistical threshold
         GetBeat(ref freqSpectrum, ref freqAvgSpectrum, ref bass, ref low);
+        if (cuboBassClon != null)
+        {
+            float step = velocidadCubo * Time.deltaTime;
+            cuboBassClon.position = Vector3.MoveTowards(cuboBassClon.position, targetPositionBass.position, step);
+        }
+        if (cuboLowClon != null)
+        {
+            float step = velocidadCubo * Time.deltaTime;
+            cuboLowClon.position = Vector3.MoveTowards(cuboLowClon.position, targetPositionLow.position, step);
+        }
 
     }
+    
 
     private void LateUpdate()
     {
         // change color of cubes based on booleans
-        if (bass)
+        if (bass && Time.time > inicioTimeBass)
         {
+            inicioTimeBass = Time.time + tiempoBassDisparo;
             bassObjectMaterial.color = Color.Lerp(bassObjectMaterial.color, bassColNew, lerp);
+
+            cuboBassClon = Instantiate(cuboBass, lanzadorBass.position, Quaternion.identity);
+
         }
         else
         {
             bassObjectMaterial.color = Color.Lerp(bassObjectMaterial.color, bassColOld, lerp);
         }
 
-        if (low)
+        if (low && Time.time > inicioTimeLow) 
         {
+            inicioTimeLow = Time.time + tiempoLowDisparo;
             lowObjectMaterial.color = Color.Lerp(lowObjectMaterial.color, lowColNew, lerp);
+            cuboLowClon = Instantiate(cuboLow, lanzadorLow.position, Quaternion.identity);
+
         }
         else
         {

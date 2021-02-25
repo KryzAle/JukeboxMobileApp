@@ -8,7 +8,7 @@
     <meta-data android:name="unity.splash-mode" android:value="0" />
     <meta-data android:name="unity.splash-enable" android:value="False" />
     <meta-data android:name="notch.config" android:value="portrait|landscape" />
-    <meta-data android:name="unity.build-id" android:value="4ab6a5dd-ae16-4e81-932d-dc4682f82dde" />
+    <meta-data android:name="unity.build-id" android:value="438eb8ed-1ff3-4737-b335-68aed2db9e13" />
   </application>
   <uses-feature android:glEsVersion="0x00020000" />
   <uses-feature android:name="android.hardware.vr.headtracking" android:required="false" android:version="1" />
