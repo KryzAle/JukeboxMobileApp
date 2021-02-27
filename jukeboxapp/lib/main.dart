@@ -25,6 +25,8 @@ class _UnityDemoScreenState extends State<UnityDemoScreen> {
         child: WillPopScope(
           onWillPop: () {
             // Pop the category page if Android back button is pressed.
+            cambiarCancion(
+                "https://dl20.freemp3downloads.online/file/youtubeNWMRx4G9zjo128.mp3?fn=EL%20CUARTETO%20DE%20IBAI%20(Versi%C3%B3n%20Oficial)%20ft.%20Lucas%20Requena%20%26%20ortoPilot.mp3");
           },
           child: Container(
             color: Colors.yellow,
@@ -42,5 +44,10 @@ class _UnityDemoScreenState extends State<UnityDemoScreen> {
   // Callback that connects the created controller to the unity controller
   void onUnityCreated(controller) {
     this._unityWidgetController = controller;
+  }
+
+  void cambiarCancion(String url) {
+    _unityWidgetController.postMessage('AudioManager', 'cambiarUrl', url);
+    print(url);
   }
 }

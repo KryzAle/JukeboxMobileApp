@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
 using UnityEngine.Networking;
+using System;
 
 public class BeatDetector : MonoBehaviour
 {
@@ -11,6 +12,7 @@ public class BeatDetector : MonoBehaviour
 
     Rigidbody cuboLowClon;
 
+    public String urlCancion;
 
     public Transform targetPositionBass;
 
@@ -72,14 +74,12 @@ public class BeatDetector : MonoBehaviour
 
     void Start()
     {
-        StartCoroutine(GetAudioClip());
-
-
+        //cambiarUrl("https://dl20.freemp3downloads.online/file/youtubeNWMRx4G9zjo128.mp3?fn=EL%20CUARTETO%20DE%20IBAI%20(Versi%C3%B3n%20Oficial)%20ft.%20Lucas%20Requena%20%26%20ortoPilot.mp3");
     }
 
-    IEnumerator GetAudioClip()
+    IEnumerator GetAudioClip(String url)
     {
-        using (var uwr = UnityWebRequestMultimedia.GetAudioClip("https://dl2.freemp3downloads.online/file/youtubew2C6RhQBYlg128.mp3?fn=Jhay%20Cortez%2C%20J.%20Balvin%2C%20Bad%20Bunny%20-%20No%20Me%20Conoce%20(Remix).mp3", AudioType.MPEG))
+        using (var uwr = UnityWebRequestMultimedia.GetAudioClip(url, AudioType.MPEG))
         {
             yield return uwr.SendWebRequest();
             if (uwr.isNetworkError || uwr.isHttpError)
@@ -284,5 +284,8 @@ public class BeatDetector : MonoBehaviour
         }
         audioSource.clip = clip;
         audioSource.Play();
+    }
+    public void cambiarUrl(String message){
+        StartCoroutine(GetAudioClip(message));
     }
 }
