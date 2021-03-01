@@ -106,7 +106,7 @@ class _OnboardState extends State<Onboard> with SingleTickerProviderStateMixin {
             child: GestureDetector(
               onTap: () {
                 Navigator.push(context, MaterialPageRoute(builder: (context) {
-                  return Mainscreen();
+                  return MainScreen();
                 }));
               },
               child: FadingSlidingWidget(

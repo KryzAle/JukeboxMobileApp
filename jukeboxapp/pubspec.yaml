@@ -29,6 +29,7 @@ dependencies:
   smooth_page_indicator: ^0.1.5
   flutter_svg: ^0.17.4
   lottie: ^0.4.1
+  webview_flutter:
 
 
 
