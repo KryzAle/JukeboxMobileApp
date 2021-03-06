@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'dart:io';
 import 'package:webview_flutter/webview_flutter.dart';
 
-class MainScreen extends StatefulWidget {
-  MainScreen({Key key}) : super(key: key);
+class TestInicial extends StatefulWidget {
+  TestInicial({Key key}) : super(key: key);
 
   @override
-  _MainScreenState createState() => _MainScreenState();
+  _TestInicialState createState() => _TestInicialState();
 }
 
-class _MainScreenState extends State<MainScreen> {
+class _TestInicialState extends State<TestInicial> {
   @override
   void initState() {
     super.initState();
@@ -27,6 +27,9 @@ class _MainScreenState extends State<MainScreen> {
       onPageFinished: (String url) {
         if (url.contains("formResponse")) {
           print("formulario completado");
+          /*Navigator.push(context, MaterialPageRoute(builder: (context) {
+            return Pickers();
+          }));*/
         }
       },
     );

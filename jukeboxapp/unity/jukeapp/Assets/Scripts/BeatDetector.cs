@@ -52,10 +52,10 @@ public class BeatDetector : MonoBehaviour
     public Color lowColNew;              // 
     public Material lowObjectMaterial;      // 
 
-    public int bassLowerLimit = 60;    // 
-    public int bassUpperLimit = 180;   // 
-    public int lowLowerLimit = 500;    // 
-    public int lowUpperLimit = 2000;   // 
+    public int bassLowerLimit = 40;    // 
+    public int bassUpperLimit = 70;   // 
+    public int lowLowerLimit = 2000;    // 
+    public int lowUpperLimit = 2500;   // 
 
     const float lerp = 0.1f;            // 
 
@@ -74,7 +74,7 @@ public class BeatDetector : MonoBehaviour
 
     void Start()
     {
-        //cambiarUrl("https://dl20.freemp3downloads.online/file/youtubeNWMRx4G9zjo128.mp3?fn=EL%20CUARTETO%20DE%20IBAI%20(Versi%C3%B3n%20Oficial)%20ft.%20Lucas%20Requena%20%26%20ortoPilot.mp3");
+        //cambiarUrl("https://dl8.freemp3downloads.online/file/youtubeTmKh7lAwnBI128.mp3?fn=Bad%20Bunny%20x%20Jhay%20Cortez%20-%20D%C3%A1kiti%20(Video%20Oficial).mp3");
     }
 
     IEnumerator GetAudioClip(String url)
@@ -131,7 +131,7 @@ public class BeatDetector : MonoBehaviour
         }
 
     }
-    
+
 
     private void LateUpdate()
     {
@@ -149,7 +149,7 @@ public class BeatDetector : MonoBehaviour
             bassObjectMaterial.color = Color.Lerp(bassObjectMaterial.color, bassColOld, lerp);
         }
 
-        if (low && Time.time > inicioTimeLow) 
+        if (low && Time.time > inicioTimeLow)
         {
             inicioTimeLow = Time.time + tiempoLowDisparo;
             lowObjectMaterial.color = Color.Lerp(lowObjectMaterial.color, lowColNew, lerp);
@@ -285,7 +285,8 @@ public class BeatDetector : MonoBehaviour
         audioSource.clip = clip;
         audioSource.Play();
     }
-    public void cambiarUrl(String message){
+    public void cambiarUrl(String message)
+    {
         StartCoroutine(GetAudioClip(message));
     }
 }

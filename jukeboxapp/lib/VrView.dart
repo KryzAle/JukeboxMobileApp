@@ -5,14 +5,15 @@ import 'package:flutter_unity_widget/flutter_unity_widget.dart';
   runApp(MaterialApp(home: UnityDemoScreen()));
 }*/
 
-class UnityDemoScreen extends StatefulWidget {
-  UnityDemoScreen({Key key}) : super(key: key);
+class VrView extends StatefulWidget {
+  final String urlMp3;
+  VrView({Key key, @required this.urlMp3}) : super(key: key);
 
   @override
-  _UnityDemoScreenState createState() => _UnityDemoScreenState();
+  _VrViewState createState() => _VrViewState();
 }
 
-class _UnityDemoScreenState extends State<UnityDemoScreen> {
+class _VrViewState extends State<VrView> {
   static final GlobalKey<ScaffoldState> _scaffoldKey =
       GlobalKey<ScaffoldState>();
   UnityWidgetController _unityWidgetController;
@@ -35,10 +36,13 @@ class _UnityDemoScreenState extends State<UnityDemoScreen> {
               Positioned(
                 child: ElevatedButton(
                   onPressed: () {
-                    cambiarCancion(
-                        "https://dl20.freemp3downloads.online/file/youtubeNWMRx4G9zjo128.mp3?fn=EL%20CUARTETO%20DE%20IBAI%20(Versi%C3%B3n%20Oficial)%20ft.%20Lucas%20Requena%20%26%20ortoPilot.mp3");
+                    cambiarCancion(widget.urlMp3);
                   },
-                  child: Text('Iniciar'),
+                  child: Icon(
+                    Icons.play_arrow_outlined,
+                    color: Colors.white,
+                    size: 36.0,
+                  ),
                 ),
               ),
             ],

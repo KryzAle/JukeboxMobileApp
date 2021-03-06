@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:jukeboxapp/screens/proceso.dart';
+import 'package:jukeboxapp/screens/ytSearch.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:jukeboxapp/model/onboard_page_item.dart';
 import 'package:jukeboxapp/components/fading_sliding_widget.dart';
 import 'package:jukeboxapp/screens/onboard/welcome_page.dart';
 import 'package:jukeboxapp/screens/onboard/onboard_page.dart';
-import 'package:jukeboxapp/screens/mainscreen.dart';
+import 'package:jukeboxapp/screens/testInicial.dart';
 
 class Onboard extends StatefulWidget {
   @override
@@ -106,7 +108,7 @@ class _OnboardState extends State<Onboard> with SingleTickerProviderStateMixin {
             child: GestureDetector(
               onTap: () {
                 Navigator.push(context, MaterialPageRoute(builder: (context) {
-                  return MainScreen();
+                  return YtSearch();
                 }));
               },
               child: FadingSlidingWidget(
