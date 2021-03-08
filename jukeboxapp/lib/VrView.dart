@@ -32,6 +32,7 @@ class _VrViewState extends State<VrView> {
               UnityWidget(
                 onUnityCreated: onUnityCreated,
                 isARScene: true,
+                fullscreen: true,
               ),
               Positioned(
                 child: ElevatedButton(

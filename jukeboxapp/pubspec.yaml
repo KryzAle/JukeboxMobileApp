@@ -30,15 +30,9 @@ dependencies:
   flutter_svg: ^0.17.4
   lottie: ^0.4.1
   webview_flutter:
-  file_picker: ^1.7.0
-  intro_slider: ^1.0.8
-  youtube_api: ^0.8.0
-
-
-
-
-
-
+  youtube_api: 
+    git:
+      url: https://github.com/SahilKr24/youtube_api
 
 
   # The following adds the Cupertino Icons font to your application.
