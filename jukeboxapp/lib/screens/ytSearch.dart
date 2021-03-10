@@ -12,8 +12,7 @@ class YtSearch extends StatefulWidget {
 class _YtSearchState extends State<YtSearch> {
   static String key = "AIzaSyDv2salRVXRgfmDx4h950mVD4JjSwSTwg8";
   final myController = TextEditingController();
-
-  YoutubeAPI ytApi = YoutubeAPI(key);
+  YoutubeAPI ytApi = YoutubeAPI(key,type: "video");
   List<YT_API> ytResult = [];
   @override
   void dispose() {
@@ -42,6 +41,10 @@ class _YtSearchState extends State<YtSearch> {
         title: TextField(
           controller: myController,
           autofocus: true,
+          textInputAction: TextInputAction.search,
+          onSubmitted: (value){
+            callAPI(value);
+          },
           decoration: InputDecoration(
               hintText: " Buscar...",
               border: InputBorder.none,
