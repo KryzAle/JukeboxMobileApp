@@ -95,10 +95,6 @@ class _YtSearchState extends State<YtSearch> {
                     softWrap: true,
                   ),
                   Padding(padding: EdgeInsets.only(bottom: 3.0)),
-                  Text(
-                    ytResult[index].url,
-                    softWrap: true,
-                  ),
                 ])),
             IconButton(
                 icon: Icon(
@@ -106,7 +102,11 @@ class _YtSearchState extends State<YtSearch> {
                   color: Colors.red,
                 ),
                 onPressed: () {
-                  _openMyPage(ytResult[index].url);
+                  _lanzarDownloader(
+                      ytResult[index].url,
+                      ytResult[index].thumbnail['default']['url'],
+                      ytResult[index].title,
+                      ytResult[index].channelTitle);
                 }),
           ],
         ),
@@ -114,13 +114,17 @@ class _YtSearchState extends State<YtSearch> {
     );
   }
 
-  void _openMyPage(String url) {
+  void _lanzarDownloader(
+      String url, String urlImg, String titulo, String canal) {
     int tamUrl = url.indexOf("v=");
     Navigator.push(
         context,
         MaterialPageRoute(
             builder: (BuildContext context) => Mp3Downloader(
                   idYoutube: url.substring(tamUrl + 2),
+                  imgYoutube: urlImg,
+                  canalYoutube: canal,
+                  tituloYoutube: titulo,
                 )));
   }
 }

@@ -25,12 +25,13 @@ class _VrViewState extends State<VrView> {
         bottom: false,
         child: WillPopScope(
           onWillPop: () {
-            // Pop the category page if Android back button is pressed.
+            Navigator.pop(context);
           },
           child: Stack(
             children: <Widget>[
               UnityWidget(
                 onUnityCreated: onUnityCreated,
+                onUnitySceneLoaded: onUnitySceneLoaded,
                 isARScene: true,
                 fullscreen: true,
               ),
@@ -56,6 +57,12 @@ class _VrViewState extends State<VrView> {
   // Callback that connects the created controller to the unity controller
   void onUnityCreated(controller) {
     this._unityWidgetController = controller;
+  }
+
+  void onUnitySceneLoaded(SceneLoaded sceneInfo) {
+    print('Received scene loaded from unity: ${sceneInfo.name}');
+    print(
+        'Received scene loaded from unity buildIndex: ${sceneInfo.buildIndex}');
   }
 
   void cambiarCancion(String url) {

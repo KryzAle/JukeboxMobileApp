@@ -30,6 +30,7 @@ dependencies:
   flutter_svg: ^0.17.4
   lottie: ^0.4.1
   webview_flutter:
+  tutorial_coach_mark:
   youtube_api: 
     git:
       url: https://github.com/SahilKr24/youtube_api
