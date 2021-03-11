@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:jukeboxapp/screens/ytSearch.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:jukeboxapp/model/onboard_page_item.dart';
 import 'package:jukeboxapp/components/fading_sliding_widget.dart';
 import 'package:jukeboxapp/screens/onboard/welcome_page.dart';
 import 'package:jukeboxapp/screens/onboard/onboard_page.dart';
+
+import '../menuSwiper.dart';
 
 class Onboard extends StatefulWidget {
   @override
@@ -106,7 +107,7 @@ class _OnboardState extends State<Onboard> with SingleTickerProviderStateMixin {
             child: GestureDetector(
               onTap: () {
                 Navigator.push(context, MaterialPageRoute(builder: (context) {
-                  return YtSearch();
+                  return MenuSwiper();
                 }));
               },
               child: FadingSlidingWidget(
@@ -117,7 +118,7 @@ class _OnboardState extends State<Onboard> with SingleTickerProviderStateMixin {
                   width: width * 0.8,
                   height: height * 0.075,
                   child: Text(
-                    'Empezar',
+                    'Comenzar',
                     style: TextStyle(
                       color: onboardPage
                           ? const Color(0xFFFFFFFF)

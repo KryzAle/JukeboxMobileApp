@@ -10,8 +10,9 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
+      theme: ThemeData(fontFamily: 'Poppins'),
       home: Onboard(),
-      theme: ThemeData(primaryColor: const Color(0xFF4A00E0)),
+      debugShowCheckedModeBanner: false,
     );
   }
 }
