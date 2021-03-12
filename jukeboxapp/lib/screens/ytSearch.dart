@@ -1,6 +1,8 @@
+
 import 'package:flutter/material.dart';
 import 'package:jukeboxapp/screens/Mp3Download.dart';
 import 'package:youtube_api/youtube_api.dart';
+import 'dart:math';
 
 class YtSearch extends StatefulWidget {
   YtSearch({Key key}) : super(key: key);
@@ -12,61 +14,88 @@ class YtSearch extends StatefulWidget {
 class _YtSearchState extends State<YtSearch> {
   static String key = "AIzaSyDv2salRVXRgfmDx4h950mVD4JjSwSTwg8";
   final myController = TextEditingController();
-  YoutubeAPI ytApi = YoutubeAPI(key,type: "video");
+  YoutubeAPI ytApi = YoutubeAPI(key, type: "video");
   List<YT_API> ytResult = [];
   @override
   void dispose() {
-    // Clean up the controller when the widget is disposed.
     myController.dispose();
     super.dispose();
   }
 
   callAPI(String query) async {
-    //String query = "Otaku";
     ytResult = await ytApi.search(query);
-    //ytResult = await ytApi.nextPage();
     setState(() {});
   }
 
   @override
   void initState() {
     super.initState();
-    print('hello');
+    recomendaciones();
   }
-
+  Future<void> recomendaciones()async {
+    final artistas = ["badbunny","camilo","the weekend","shakira","anuel aa","Karol G","J balvin"];
+    var rnd = random(0,6);
+    print(rnd);
+    ytResult = await ytApi.search(artistas[rnd]);
+    setState(() {
+      
+    });
+  }
+  int random(min, max){
+    var rn = new Random();
+    return min + rn.nextInt(max - min);
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: TextField(
-          controller: myController,
-          autofocus: true,
-          textInputAction: TextInputAction.search,
-          onSubmitted: (value){
-            callAPI(value);
-          },
-          decoration: InputDecoration(
-              hintText: " Buscar...",
-              border: InputBorder.none,
-              suffixIcon: IconButton(
-                icon: Icon(Icons.search),
-                onPressed: () {
-                  callAPI(myController.text);
-                  setState(() {
-                    myController.text = "";
-                  });
-                },
-              )),
-          style: TextStyle(color: Colors.black, fontSize: 14.0),
-        ),
         iconTheme: IconThemeData(color: Color.fromRGBO(9, 133, 46, 100)),
         backgroundColor: Colors.white,
+        elevation: 0,
       ),
-      body: Container(
-        child: ListView.builder(
-          itemCount: ytResult.length,
-          itemBuilder: (_, int index) => listItem(index),
-        ),
+      body: Column(
+        children: [
+          Container(
+            alignment: Alignment.center,
+            height: 150,
+            child: Image.asset(
+              "assets/images/youtube.png",
+            ),
+          ),
+          Container(
+            height: 50,
+            width: 300,
+            child: TextField(
+              controller: myController,
+              textInputAction: TextInputAction.search,
+              onSubmitted: (value) {
+                if (value != "") {
+                  callAPI(value);
+                }
+              },
+              decoration: InputDecoration(
+                  hintText: " Buscar...",
+                  border: InputBorder.none,
+                  suffixIcon: IconButton(
+                    icon: Icon(Icons.search),
+                    onPressed: () {
+                      if (myController.text != "") {
+                        callAPI(myController.text);
+                      }
+                      setState(() {
+                        myController.text = "";
+                      });
+                    },
+                  )),
+            ),
+          ),
+          Expanded(
+            child: ListView.builder(
+              itemCount: ytResult.length,
+              itemBuilder: (_, int index) => listItem(index),
+            ),
+          ),
+        ],
       ),
     );
   }
