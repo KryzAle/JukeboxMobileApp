@@ -75,6 +75,7 @@ public class BeatDetector : MonoBehaviour
     void Start()
     {
         //cambiarUrl("https://dl8.freemp3downloads.online/file/youtubeTmKh7lAwnBI128.mp3?fn=Bad%20Bunny%20x%20Jhay%20Cortez%20-%20D%C3%A1kiti%20(Video%20Oficial).mp3");
+
     }
 
     IEnumerator GetAudioClip(String url)
@@ -288,5 +289,6 @@ public class BeatDetector : MonoBehaviour
     public void cambiarUrl(String message)
     {
         StartCoroutine(GetAudioClip(message));
+        UnityMessageManager.Instance.SendMessageToFlutter("mensajito siosi");
     }
 }

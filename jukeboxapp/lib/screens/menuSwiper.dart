@@ -1,8 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:jukeboxapp/components/btn.dart';
+import 'package:jukeboxapp/screens/testInicial.dart';
 import 'package:jukeboxapp/screens/ytSearch.dart';
 import 'package:jukeboxapp/services/sound.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class MenuSwiper extends StatelessWidget {
   final soundService = SoundService();
@@ -67,10 +69,19 @@ class MenuSwiper extends StatelessWidget {
                           textColor: Colors.black87,
                           onPressed: () {
                             soundService.playSound('click');
-                            Navigator.push(context,
-                                MaterialPageRoute(builder: (context) {
-                              return YtSearch();
-                            }));
+                            consultarToken().then((value) {
+                              if (value) {
+                                Navigator.push(context,
+                                    MaterialPageRoute(builder: (context) {
+                                  return YtSearch();
+                                }));
+                              } else {
+                                Navigator.push(context,
+                                    MaterialPageRoute(builder: (context) {
+                                  return TestInicial();
+                                }));
+                              }
+                            });
                           },
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(20)),
@@ -129,5 +140,11 @@ class MenuSwiper extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  Future<bool> consultarToken() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    bool existe = prefs.containsKey('token');
+    return existe;
   }
 }

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:jukeboxapp/screens/ytSearch.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:io';
 import 'package:webview_flutter/webview_flutter.dart';
 
@@ -26,12 +28,19 @@ class _TestInicialState extends State<TestInicial> {
       gestureNavigationEnabled: true,
       onPageFinished: (String url) {
         if (url.contains("formResponse")) {
-          print("formulario completado");
-          /*Navigator.push(context, MaterialPageRoute(builder: (context) {
-            return Pickers();
-          }));*/
+          print("formulario completado, token guardado");
+          _tokenFormulario("formulariocompletado");
+
+          Navigator.push(context, MaterialPageRoute(builder: (context) {
+            return YtSearch();
+          }));
         }
       },
     );
+  }
+
+  _tokenFormulario(String token) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setString('token', token);
   }
 }

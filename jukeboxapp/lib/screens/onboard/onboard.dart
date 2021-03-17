@@ -17,17 +17,17 @@ class _OnboardState extends State<Onboard> with SingleTickerProviderStateMixin {
     OnboardPageItem(
       lottieAsset: 'assets/animations/work_from_home2.json',
       text:
-          'Recuperar el equilibrio te permite poder funcionar al máximo en tus actividades académicas.',
+          'Te gustaría recuperar el equilibrio te permita poder funcionar al máximo en tus actividades académicas.',
     ),
     OnboardPageItem(
       lottieAsset: 'assets/animations/speaker.json',
-      text: 'Por eso te presentamos JukeApp VR.',
+      text: 'Por eso traemos a tus manos JukeApp VR.',
       animationDuration: const Duration(milliseconds: 1100),
     ),
     OnboardPageItem(
       lottieAsset: 'assets/animations/vr.json',
       text:
-          'Jukeapp te permite reducir tus niveles de estrés a partir de música y tecnología de realidad virtual.',
+          'Jukeapp te permitirá reducir tus niveles de estrés a partir de música y tecnología de realidad virtual.',
     ),
   ];
 

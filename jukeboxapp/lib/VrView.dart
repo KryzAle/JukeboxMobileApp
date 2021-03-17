@@ -31,6 +31,7 @@ class _VrViewState extends State<VrView> {
             children: <Widget>[
               UnityWidget(
                 onUnityCreated: onUnityCreated,
+                onUnityMessage: onUnityMessage,
                 onUnitySceneLoaded: onUnitySceneLoaded,
                 isARScene: true,
                 fullscreen: true,
@@ -68,5 +69,9 @@ class _VrViewState extends State<VrView> {
   void cambiarCancion(String url) {
     _unityWidgetController.postMessage('AudioManager', 'cambiarUrl', url);
     print(url);
+  }
+
+  void onUnityMessage(message) {
+    print('Me llego de unity: ${message.toString()}');
   }
 }

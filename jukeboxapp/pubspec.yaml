@@ -31,12 +31,15 @@ dependencies:
   lottie: ^0.4.1
   webview_flutter:
   tutorial_coach_mark:
-  flutter_swiper : 
   youtube_api: 
     git:
       url: https://github.com/SahilKr24/youtube_api
   audioplayers: ^0.13.0
   rxdart:
+  shared_preferences: ^2.0.4
+  tutorial: ^1.0.7
+
+
 
 
   # The following adds the Cupertino Icons font to your application.

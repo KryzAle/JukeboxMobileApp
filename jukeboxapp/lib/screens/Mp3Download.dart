@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:jukeboxapp/VrView.dart';
+import 'package:tutorial/tutorial.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'dart:io';
 import 'package:tutorial_coach_mark/tutorial_coach_mark.dart';
@@ -24,13 +25,17 @@ class Mp3Downloader extends StatefulWidget {
 class _Mp3DownloaderState extends State<Mp3Downloader> {
   TutorialCoachMark tutorialCoachMark;
   List<TargetFocus> targets = List();
-  GlobalKey keyButton = GlobalKey();
+  GlobalKey contenedorDownloader = GlobalKey();
+  List<TutorialItens> itens = [];
 
   @override
   void initState() {
     if (Platform.isAndroid) WebView.platform = SurfaceAndroidWebView();
     initTargets();
     showTutorial();
+    Future.delayed(Duration(microseconds: 200)).then((value) {
+      showTutorial();
+    });
     super.initState();
     // Enable hybrid composition.
   }
@@ -70,7 +75,7 @@ class _Mp3DownloaderState extends State<Mp3Downloader> {
                     ),
                     Padding(padding: EdgeInsets.only(bottom: 3.0)),
                     Container(
-                      key: keyButton,
+                      key: contenedorDownloader,
                       constraints: BoxConstraints.expand(
                         height: Theme.of(context).textTheme.headline4.fontSize *
                                 1.1 +
@@ -117,61 +122,34 @@ class _Mp3DownloaderState extends State<Mp3Downloader> {
   }
 
   void initTargets() {
-    targets.add(
-      TargetFocus(
-        identify: "Target 0",
-        keyTarget: keyButton,
-        shape: ShapeLightFocus.RRect,
-        contents: [
-          TargetContent(
-              align: ContentAlign.top,
-              child: Container(
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Text(
-                      "Seleccione calidad de Audio",
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white,
-                          fontSize: 20.0),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 10.0),
-                      child: Text(
-                        "Una mayor calidad de audio asegura una mejor experiencia de juego pero el tiempo de carga será mas lento",
-                        style: TextStyle(color: Colors.white),
-                      ),
-                    )
-                  ],
-                ),
-              ))
-        ],
-      ),
-    );
+    itens.addAll({
+      TutorialItens(
+          globalKey: contenedorDownloader,
+          touchScreen: true,
+          bottom: 50,
+          left: 50,
+          children: [
+            Text(
+              "Seleccione la calidad de audio, una mayor calidad asegura una mejor experiencia pero el tiempo de carga será mayor",
+              style: TextStyle(color: Colors.black, fontSize: 16),
+            ),
+            SizedBox(
+              height: 100,
+            ),
+          ],
+          widgetNext: Text(
+            "Toque para continuar",
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              color: Colors.blue,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          shapeFocus: ShapeFocus.square),
+    });
   }
 
   void showTutorial() {
-    tutorialCoachMark = TutorialCoachMark(
-      context,
-      targets: targets,
-      colorShadow: Colors.blue,
-      textSkip: "Aceptar",
-      paddingFocus: 10,
-      opacityShadow: 0.8,
-      onFinish: () {
-        print("finish");
-      },
-      onClickTarget: (target) {
-        print('onClickTarget: $target');
-      },
-      onSkip: () {
-        print("skip");
-      },
-      onClickOverlay: (target) {
-        print('onClickOverlay: $target');
-      },
-    )..show();
+    Tutorial.showTutorial(context, itens);
   }
 }
