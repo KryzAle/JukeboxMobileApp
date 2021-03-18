@@ -72,9 +72,11 @@ public class BeatDetector : MonoBehaviour
     int FFTHistory_maxSize;
     List<int> beatDetector_bandLimits = new List<int>();
 
+    bool cancionIniciada = false;
+
     void Start()
     {
-        //cambiarUrl("https://dl8.freemp3downloads.online/file/youtubeTmKh7lAwnBI128.mp3?fn=Bad%20Bunny%20x%20Jhay%20Cortez%20-%20D%C3%A1kiti%20(Video%20Oficial).mp3");
+        //cambiarUrl("https://dl17.freemp3downloads.online/file/youtuberelSpDsFTZk128.mp3?fn=%C2%A1Bienvenidos%20a%20la%20grieta%20del%20invocador!.mp3");
 
     }
 
@@ -118,6 +120,11 @@ public class BeatDetector : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (audioSource.isPlaying == false && cancionIniciada == true)
+        {
+            UnityMessageManager.Instance.SendMessageToFlutter("off");
+            cancionIniciada=false;
+        }
         // Check if current sample are above statistical threshold
         GetBeat(ref freqSpectrum, ref freqAvgSpectrum, ref bass, ref low);
         if (cuboBassClon != null)
@@ -285,10 +292,10 @@ public class BeatDetector : MonoBehaviour
         }
         audioSource.clip = clip;
         audioSource.Play();
+        cancionIniciada = true;
     }
     public void cambiarUrl(String message)
     {
         StartCoroutine(GetAudioClip(message));
-        UnityMessageManager.Instance.SendMessageToFlutter("mensajito siosi");
     }
 }

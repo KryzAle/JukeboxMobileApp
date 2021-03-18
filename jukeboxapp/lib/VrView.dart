@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_unity_widget/flutter_unity_widget.dart';
+import 'package:jukeboxapp/screens/testFinal.dart';
+import 'package:jukeboxapp/screens/testInicial.dart';
+import 'package:jukeboxapp/screens/ytSearch.dart';
 
 /*void main() {
   runApp(MaterialApp(home: UnityDemoScreen()));
@@ -73,5 +76,10 @@ class _VrViewState extends State<VrView> {
 
   void onUnityMessage(message) {
     print('Me llego de unity: ${message.toString()}');
+    Navigator.pop(context);
+    Navigator.push(context, MaterialPageRoute(builder: (context) {
+      return TestFinal();
+    }));
+    //_unityWidgetController.quit(silent: true);
   }
 }
