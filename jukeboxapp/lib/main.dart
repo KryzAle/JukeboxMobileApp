@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:jukeboxapp/routes/routes.dart';
 import 'package:jukeboxapp/screens/onboard/onboard.dart';
 
 void main() {
@@ -13,6 +14,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(fontFamily: 'Poppins'),
       home: Onboard(),
       debugShowCheckedModeBanner: false,
+      routes: getAplicationRoutes(),
     );
   }
 }

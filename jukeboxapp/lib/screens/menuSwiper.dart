@@ -71,15 +71,10 @@ class MenuSwiper extends StatelessWidget {
                             soundService.playSound('click');
                             consultarToken().then((value) {
                               if (value) {
-                                Navigator.push(context,
-                                    MaterialPageRoute(builder: (context) {
-                                  return YtSearch();
-                                }));
+                                Navigator.pushNamed(context, 'tomar_foto');
                               } else {
-                                Navigator.push(context,
-                                    MaterialPageRoute(builder: (context) {
-                                  return TestInicial();
-                                }));
+                                Navigator.pushNamed(context, 'tomar_foto');
+                                
                               }
                             });
                           },
