@@ -52,10 +52,10 @@ public class BeatDetector : MonoBehaviour
     public Color lowColNew;              // 
     public Material lowObjectMaterial;      // 
 
-    public int bassLowerLimit = 40;    // 
-    public int bassUpperLimit = 70;   // 
-    public int lowLowerLimit = 2000;    // 
-    public int lowUpperLimit = 2500;   // 
+    public int bassLowerLimit = 60;    // 
+    public int bassUpperLimit = 180;   // 
+    public int lowLowerLimit = 500;    // 
+    public int lowUpperLimit = 2000;   // 
 
     const float lerp = 0.1f;            // 
 
@@ -76,7 +76,7 @@ public class BeatDetector : MonoBehaviour
 
     void Start()
     {
-        //cambiarUrl("https://dl17.freemp3downloads.online/file/youtuberelSpDsFTZk128.mp3?fn=%C2%A1Bienvenidos%20a%20la%20grieta%20del%20invocador!.mp3");
+        cambiarUrl("https://cdnm.meln.top/mr/Radiohead%20-%20Creep.mp3?session_key=9adb3991f745e33649951c1115c180de&hash=515afd9f0da62d3cc7c3720d5ebc24f3");
 
     }
 
@@ -123,7 +123,7 @@ public class BeatDetector : MonoBehaviour
         if (audioSource.isPlaying == false && cancionIniciada == true)
         {
             UnityMessageManager.Instance.SendMessageToFlutter("off");
-            cancionIniciada=false;
+            cancionIniciada = false;
         }
         // Check if current sample are above statistical threshold
         GetBeat(ref freqSpectrum, ref freqAvgSpectrum, ref bass, ref low);
@@ -147,9 +147,10 @@ public class BeatDetector : MonoBehaviour
         if (bass && Time.time > inicioTimeBass)
         {
             inicioTimeBass = Time.time + tiempoBassDisparo;
-            bassObjectMaterial.color = Color.Lerp(bassObjectMaterial.color, bassColNew, lerp);
+            //bassObjectMaterial.color = Color.Lerp(bassObjectMaterial.color, bassColNew, lerp);
 
             cuboBassClon = Instantiate(cuboBass, lanzadorBass.position, Quaternion.identity);
+            cuboBassClon.transform.Rotate(0, 180, 0);
 
         }
         else
@@ -160,8 +161,10 @@ public class BeatDetector : MonoBehaviour
         if (low && Time.time > inicioTimeLow)
         {
             inicioTimeLow = Time.time + tiempoLowDisparo;
-            lowObjectMaterial.color = Color.Lerp(lowObjectMaterial.color, lowColNew, lerp);
+            //lowObjectMaterial.color = Color.Lerp(lowObjectMaterial.color, lowColNew, lerp);
             cuboLowClon = Instantiate(cuboLow, lanzadorLow.position, Quaternion.identity);
+            cuboLowClon.transform.Rotate(0, 180, 0);
+
 
         }
         else
