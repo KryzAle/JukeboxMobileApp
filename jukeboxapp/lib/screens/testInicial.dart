@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:jukeboxapp/screens/ytSearch.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:io';
@@ -30,10 +31,7 @@ class _TestInicialState extends State<TestInicial> {
         if (url.contains("formResponse")) {
           print("formulario completado, token guardado");
           _tokenFormulario("formulariocompletado");
-
-          Navigator.push(context, MaterialPageRoute(builder: (context) {
-            return YtSearch();
-          }));
+          Navigator.popAndPushNamed(context,"tomar_foto");
         }
       },
     );

@@ -75,7 +75,7 @@ class _TakePhotoState extends State<TakePhoto> {
     );
   }
   _tomarFoto()async{
-    await _procesarImagen(ImageSource.camera);
+    await _procesarImagen(ImageSource.gallery);
   }
   _procesarImagen(ImageSource origen)async{
     final api = EmocionesProvider();

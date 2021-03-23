@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:jukeboxapp/model/onboard_page_item.dart';
 import 'package:jukeboxapp/components/fading_sliding_widget.dart';
@@ -36,6 +38,8 @@ class _OnboardState extends State<Onboard> with SingleTickerProviderStateMixin {
   List<Widget> onboardItems = [];
   double _activeIndex;
   bool onboardPage = false;
+  bool name ;
+
   AnimationController _animationController;
 
   @override
@@ -75,6 +79,7 @@ class _OnboardState extends State<Onboard> with SingleTickerProviderStateMixin {
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
+    consultarPreferencia("name");
     return Scaffold(
       body: Stack(
         alignment: Alignment.center,
@@ -106,9 +111,11 @@ class _OnboardState extends State<Onboard> with SingleTickerProviderStateMixin {
             bottom: 20,
             child: GestureDetector(
               onTap: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) {
-                  return MenuSwiper();
-                }));
+                if(name){
+                  Navigator.pushNamed(context,"menu");
+                }else{
+                  Navigator.pushNamed(context,"perfil");
+                }
               },
               child: FadingSlidingWidget(
                 animationController: _animationController,
@@ -150,5 +157,9 @@ class _OnboardState extends State<Onboard> with SingleTickerProviderStateMixin {
         ],
       ),
     );
+  }
+  Future<void> consultarPreferencia(String key) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    name = prefs.containsKey(key);
   }
 }

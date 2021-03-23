@@ -73,7 +73,7 @@ class MenuSwiper extends StatelessWidget {
                               if (value) {
                                 Navigator.pushNamed(context, 'tomar_foto');
                               } else {
-                                Navigator.pushNamed(context, 'tomar_foto');
+                                Navigator.pushNamed(context, 'testInicial');
                                 
                               }
                             });

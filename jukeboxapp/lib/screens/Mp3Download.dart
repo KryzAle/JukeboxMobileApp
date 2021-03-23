@@ -3,7 +3,6 @@ import 'package:jukeboxapp/VrView.dart';
 import 'package:tutorial/tutorial.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'dart:io';
-import 'package:tutorial_coach_mark/tutorial_coach_mark.dart';
 
 class Mp3Downloader extends StatefulWidget {
   final String idYoutube;
@@ -23,10 +22,10 @@ class Mp3Downloader extends StatefulWidget {
 }
 
 class _Mp3DownloaderState extends State<Mp3Downloader> {
-  TutorialCoachMark tutorialCoachMark;
-  List<TargetFocus> targets = List();
   GlobalKey contenedorDownloader = GlobalKey();
   List<TutorialItens> itens = [];
+  List<TutorialItens> itensDelete = [];
+
 
   @override
   void initState() {
@@ -39,12 +38,18 @@ class _Mp3DownloaderState extends State<Mp3Downloader> {
     super.initState();
     // Enable hybrid composition.
   }
-
+ @override
+ void dispose() {
+   super.dispose();
+ }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Selecciona calidad de audio"),
+        iconTheme: IconThemeData(color: Color.fromRGBO(9, 133, 46, 100)),
+        elevation: 0.0,
+        backgroundColor: Colors.white,
+        title: Text("Selecciona calidad de audio",style: TextStyle(color: Colors.black),),
       ),
       body: Container(
           margin: EdgeInsets.symmetric(vertical: 7.0),
@@ -131,7 +136,7 @@ class _Mp3DownloaderState extends State<Mp3Downloader> {
           children: [
             Text(
               "Seleccione la calidad de audio, una mayor calidad asegura una mejor experiencia pero el tiempo de carga será mayor",
-              style: TextStyle(color: Colors.black, fontSize: 16),
+              style: TextStyle(color: Colors.white, fontSize: 16),
             ),
             SizedBox(
               height: 100,
@@ -141,12 +146,15 @@ class _Mp3DownloaderState extends State<Mp3Downloader> {
             "Toque para continuar",
             textAlign: TextAlign.center,
             style: TextStyle(
-              color: Colors.blue,
+              color: Colors.white,
               fontWeight: FontWeight.bold,
             ),
           ),
           shapeFocus: ShapeFocus.square),
     });
+  }
+  void deleteTargets() {
+    itens.removeLast();
   }
 
   void showTutorial() {
