@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:jukeboxapp/VrView.dart';
-import 'package:tutorial/tutorial.dart';
+import 'package:jukeboxapp/services/painter.dart';
+import 'package:jukeboxapp/services/shape_models.dart';
+import 'package:jukeboxapp/services/tutorial_itens.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'dart:io';
 
@@ -25,23 +27,118 @@ class _Mp3DownloaderState extends State<Mp3Downloader> {
   GlobalKey contenedorDownloader = GlobalKey();
   List<TutorialItens> itens = [];
   List<TutorialItens> itensDelete = [];
-
+  List<OverlayEntry> entrys = [];
+  OverlayState overlayState;
+  int count = 0;
 
   @override
   void initState() {
     if (Platform.isAndroid) WebView.platform = SurfaceAndroidWebView();
     initTargets();
-    showTutorial();
     Future.delayed(Duration(microseconds: 200)).then((value) {
-      showTutorial();
+      showTutorial(context, itens);
     });
     super.initState();
     // Enable hybrid composition.
   }
- @override
- void dispose() {
-   super.dispose();
- }
+
+  @override
+  void dispose() {
+    Future.delayed(Duration(microseconds: 200)).then((value) {
+      entrys[count].remove();
+      count++;
+      if (count != entrys.length) {
+        overlayState.insert(entrys[count]);
+      }
+    });
+    super.dispose();
+  }
+
+  showTutorial(BuildContext context, List<TutorialItens> children) async {
+    var size = MediaQuery.of(context).size;
+    overlayState = Overlay.of(context);
+    children.forEach((element) async {
+      var offset = _capturePositionWidget(element.globalKey);
+      var sizeWidget = _getSizeWidget(element.globalKey);
+      entrys.add(
+        OverlayEntry(
+          builder: (context) {
+            return GestureDetector(
+              onTap: element.touchScreen == true
+                  ? () {
+                      entrys[count].remove();
+                      count++;
+                      if (count != entrys.length) {
+                        overlayState.insert(entrys[count]);
+                      }
+                    }
+                  : () {},
+              child: Scaffold(
+                backgroundColor: Colors.transparent,
+                body: Stack(
+                  children: [
+                    CustomPaint(
+                      size: size,
+                      painter: HolePainter(
+                          shapeFocus: element.shapeFocus,
+                          dx: offset.dx + (sizeWidget.width / 2),
+                          dy: offset.dy + (sizeWidget.height / 2),
+                          width: sizeWidget.width,
+                          height: sizeWidget.height),
+                    ),
+                    Positioned(
+                      top: element.top,
+                      bottom: element.bottom,
+                      left: element.left,
+                      right: element.right,
+                      child: Container(
+                        width: size.width * 0.8,
+                        child: Column(
+                          crossAxisAlignment: element.crossAxisAlignment,
+                          mainAxisAlignment: element.mainAxisAlignment,
+                          children: [
+                            ...element.children,
+                            GestureDetector(
+                              child: element.widgetNext ??
+                                  Text(
+                                    "NEXT",
+                                    style: TextStyle(color: Colors.white),
+                                  ),
+                              onTap: () {
+                                entrys[count].remove();
+                                count++;
+                                if (count != entrys.length) {
+                                  overlayState.insert(entrys[count]);
+                                }
+                              },
+                            ),
+                          ],
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+              ),
+            );
+          },
+        ),
+      );
+    });
+
+    overlayState.insert(entrys[0]);
+  }
+
+  static Offset _capturePositionWidget(GlobalKey key) {
+    RenderBox renderPosition = key.currentContext.findRenderObject();
+
+    return renderPosition.localToGlobal(Offset.zero);
+  }
+
+  static Size _getSizeWidget(GlobalKey key) {
+    RenderBox renderSize = key.currentContext.findRenderObject();
+    return renderSize.size;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -49,79 +146,88 @@ class _Mp3DownloaderState extends State<Mp3Downloader> {
         iconTheme: IconThemeData(color: Color.fromRGBO(9, 133, 46, 100)),
         elevation: 0.0,
         backgroundColor: Colors.white,
-        title: Text("Selecciona calidad de audio",style: TextStyle(color: Colors.black),),
+        title: Text(
+          "Selecciona calidad de audio",
+          style: TextStyle(color: Colors.black),
+        ),
       ),
-      body: Container(
-          margin: EdgeInsets.symmetric(vertical: 7.0),
-          padding: EdgeInsets.all(12.0),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Expanded(
-                  child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: <Widget>[
-                    Image.network(
-                      widget.imgYoutube,
-                    ),
-                    Padding(padding: EdgeInsets.only(bottom: 3.0)),
-                    Text(
-                      widget.tituloYoutube,
-                      softWrap: true,
-                      style: TextStyle(fontSize: 14.0),
-                      textAlign: TextAlign.center,
-                    ),
-                    Padding(padding: EdgeInsets.only(bottom: 1.5)),
-                    Text(
-                      widget.canalYoutube,
-                      softWrap: true,
-                      style: TextStyle(fontSize: 12.0),
-                    ),
-                    Padding(padding: EdgeInsets.only(bottom: 3.0)),
-                    Container(
-                      key: contenedorDownloader,
-                      constraints: BoxConstraints.expand(
-                        height: Theme.of(context).textTheme.headline4.fontSize *
-                                1.1 +
-                            200.0,
+      body: WillPopScope(
+          onWillPop: () {
+            Navigator.popAndPushNamed(context, "youtube");
+          },
+          child: Container(
+            margin: EdgeInsets.symmetric(vertical: 7.0),
+            padding: EdgeInsets.all(12.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Expanded(
+                    child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: <Widget>[
+                      Image.network(
+                        widget.imgYoutube,
                       ),
-                      padding: const EdgeInsets.all(8.0),
-                      alignment: Alignment.center,
-                      child: WebView(
-                        gestureNavigationEnabled: false,
-                        initialUrl:
-                            'https://www.yt-download.org/api/button/mp3/' +
-                                widget.idYoutube,
-                        navigationDelegate: (NavigationRequest request) {
-                          if (request.url
-                              .startsWith('https://www.yt-download.org/')) {
-                            print('Conexion admitida a $request}');
-                            if (request.url.contains("/0")) {
-                              print("redirigir a vr");
-                              Navigator.pop(context);
-                              Navigator.push(context,
-                                  MaterialPageRoute(builder: (context) {
-                                return VrView(
-                                  urlMp3: request.url,
-                                );
-                              }));
+                      Padding(padding: EdgeInsets.only(bottom: 3.0)),
+                      Text(
+                        widget.tituloYoutube,
+                        softWrap: true,
+                        style: TextStyle(fontSize: 14.0),
+                        textAlign: TextAlign.center,
+                      ),
+                      Padding(padding: EdgeInsets.only(bottom: 1.5)),
+                      Text(
+                        widget.canalYoutube,
+                        softWrap: true,
+                        style: TextStyle(fontSize: 12.0),
+                      ),
+                      Padding(padding: EdgeInsets.only(bottom: 3.0)),
+                      Container(
+                        key: contenedorDownloader,
+                        constraints: BoxConstraints.expand(
+                          height:
+                              Theme.of(context).textTheme.headline4.fontSize *
+                                      1.1 +
+                                  200.0,
+                        ),
+                        padding: const EdgeInsets.all(8.0),
+                        alignment: Alignment.center,
+                        child: WebView(
+                          gestureNavigationEnabled: false,
+                          initialUrl:
+                              'https://www.yt-download.org/api/button/mp3/' +
+                                  widget.idYoutube,
+                          navigationDelegate: (NavigationRequest request) {
+                            if (request.url
+                                .startsWith('https://www.yt-download.org/')) {
+                              print('Conexion admitida a $request}');
+                              if (request.url.contains("/0")) {
+                                print("redirigir a vr");
+                                Navigator.pop(context);
+                                Navigator.push(context,
+                                    MaterialPageRoute(builder: (context) {
+                                  return VrView(
+                                    urlMp3: request.url,
+                                  );
+                                }));
+                              }
+                              return NavigationDecision.navigate;
+                            } else {
+                              print(
+                                  'Conexion bloqueada a la publicidad to $request}');
+                              return NavigationDecision.prevent;
                             }
-                            return NavigationDecision.navigate;
-                          } else {
-                            print(
-                                'Conexion bloqueada a la publicidad to $request}');
-                            return NavigationDecision.prevent;
-                          }
-                        },
-                        onPageFinished: (String url) {
-                          print("termino la carga");
-                          print(url);
-                        },
+                          },
+                          onPageFinished: (String url) {
+                            print("termino la carga");
+                            print(url);
+                          },
+                        ),
                       ),
-                    ),
-                  ])),
-            ],
+                    ])),
+              ],
+            ),
           )),
     );
   }
@@ -153,11 +259,13 @@ class _Mp3DownloaderState extends State<Mp3Downloader> {
           shapeFocus: ShapeFocus.square),
     });
   }
-  void deleteTargets() {
-    itens.removeLast();
-  }
 
+  void deleteTargets() {
+    itens.clear();
+    print(itens.length);
+  }
+/*
   void showTutorial() {
     Tutorial.showTutorial(context, itens);
-  }
+  }*/
 }
