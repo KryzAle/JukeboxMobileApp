@@ -76,7 +76,7 @@ public class BeatDetector : MonoBehaviour
 
     void Start()
     {
-        cambiarUrl("https://cdnm.meln.top/mr/Radiohead%20-%20Creep.mp3?session_key=9adb3991f745e33649951c1115c180de&hash=515afd9f0da62d3cc7c3720d5ebc24f3");
+        //cambiarUrl("https://dl5.freemp3downloads.online/file/youtubeTmKh7lAwnBI128.mp3?fn=Bad%20Bunny%20x%20Jhay%20Cortez%20-%20D%C3%A1kiti%20(Video%20Oficial).mp3");
 
     }
 
@@ -150,7 +150,7 @@ public class BeatDetector : MonoBehaviour
             //bassObjectMaterial.color = Color.Lerp(bassObjectMaterial.color, bassColNew, lerp);
 
             cuboBassClon = Instantiate(cuboBass, lanzadorBass.position, Quaternion.identity);
-            cuboBassClon.transform.Rotate(0, 180, 0);
+            cuboBassClon.transform.Rotate(15, -52, 0);
 
         }
         else
@@ -163,7 +163,7 @@ public class BeatDetector : MonoBehaviour
             inicioTimeLow = Time.time + tiempoLowDisparo;
             //lowObjectMaterial.color = Color.Lerp(lowObjectMaterial.color, lowColNew, lerp);
             cuboLowClon = Instantiate(cuboLow, lanzadorLow.position, Quaternion.identity);
-            cuboLowClon.transform.Rotate(0, 180, 0);
+            cuboLowClon.transform.Rotate(15, 52, 0);
 
 
         }
