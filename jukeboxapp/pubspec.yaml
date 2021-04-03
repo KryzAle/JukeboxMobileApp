@@ -38,6 +38,9 @@ dependencies:
   audioplayers: ^0.13.0
   rxdart:
   shared_preferences: ^2.0.4
+  image:
+  exif:
+
 
 
 

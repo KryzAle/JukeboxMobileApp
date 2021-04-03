@@ -1,8 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:jukeboxapp/components/btn.dart';
-import 'package:jukeboxapp/screens/testInicial.dart';
-import 'package:jukeboxapp/screens/ytSearch.dart';
 import 'package:jukeboxapp/services/sound.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -74,7 +72,6 @@ class MenuSwiper extends StatelessWidget {
                                 Navigator.pushNamed(context, 'tomar_foto');
                               } else {
                                 Navigator.pushNamed(context, 'testInicial');
-                                
                               }
                             });
                           },

@@ -1,25 +1,34 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:jukeboxapp/services/emociones_provider.dart';
 
-class TakePhoto extends StatefulWidget {
-  TakePhoto({Key key}) : super(key: key);
+class PostVRPhoto extends StatefulWidget {
+  PostVRPhoto({Key key}) : super(key: key);
 
   @override
-  _TakePhotoState createState() => _TakePhotoState();
+  _PostVRPhotoState createState() => _PostVRPhotoState();
 }
 
-class _TakePhotoState extends State<TakePhoto> {
+class _PostVRPhotoState extends State<PostVRPhoto> {
   File foto;
   final picker = ImagePicker();
   @override
+  void initState() {
+    super.initState();
+    SystemChrome.setEnabledSystemUIOverlays(SystemUiOverlay.values);
+    SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return SafeArea(
+    return WillPopScope(
+      onWillPop: () {},
       child: Scaffold(
         appBar: AppBar(
-          iconTheme: IconThemeData(color: Color.fromRGBO(9, 133, 46, 100)),
+          leading: Container(),
           backgroundColor: Colors.white,
           centerTitle: true,
           elevation: 0.0,
@@ -35,7 +44,7 @@ class _TakePhotoState extends State<TakePhoto> {
         Center(
           child: Image(
             image: AssetImage(
-              'assets/animations/selfie.gif',
+              'assets/animations/selfie2.gif',
             ),
             fit: BoxFit.cover,
           ),
@@ -44,7 +53,7 @@ class _TakePhotoState extends State<TakePhoto> {
           height: 20.0,
         ),
         Text(
-          "Queremos saber como te sientes",
+          "Queremos evaluar como te sientes",
           style: TextStyle(
             fontWeight: FontWeight.w500,
             color: Colors.black,
@@ -52,7 +61,7 @@ class _TakePhotoState extends State<TakePhoto> {
           ),
         ),
         Text(
-          "Hazte un Selfie",
+          "¿Te tomarías otra Selfie?",
           style: TextStyle(
             fontWeight: FontWeight.w500,
             color: Colors.green[600],
@@ -88,15 +97,12 @@ class _TakePhotoState extends State<TakePhoto> {
   _procesarImagen(ImageSource origen) async {
     final api = EmocionesProvider();
     try {
-      final fotoPicker =
-          await picker.getImage(source: origen, maxHeight: 864, maxWidth: 1152);
+      final fotoPicker = await picker.getImage(source: origen);
       if (fotoPicker?.path != null) {
         _mostrarDialog();
         foto = File(fotoPicker.path);
         await api.getEmociones(foto);
-        setState(() {});
-        Navigator.pop(context);
-        Navigator.pushReplacementNamed(context, "youtube");
+        Navigator.popUntil(context, ModalRoute.withName("menu"));
       } else {
         foto = null;
       }
@@ -104,7 +110,6 @@ class _TakePhotoState extends State<TakePhoto> {
     } catch (e) {
       print(e);
       Navigator.pop(context);
-      _mostrarDialogError();
     }
   }
 
@@ -129,18 +134,6 @@ class _TakePhotoState extends State<TakePhoto> {
                 ),
               ],
             ),
-          );
-        });
-  }
-
-  void _mostrarDialogError() {
-    showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: Text("Error"),
-            content: Text(
-                "Se ha producido un error, asegurate de encuadrar tu rostro en la cámara."),
           );
         });
   }

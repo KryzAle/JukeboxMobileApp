@@ -7,8 +7,6 @@ import 'package:jukeboxapp/components/fading_sliding_widget.dart';
 import 'package:jukeboxapp/screens/onboard/welcome_page.dart';
 import 'package:jukeboxapp/screens/onboard/onboard_page.dart';
 
-import '../menuSwiper.dart';
-
 class Onboard extends StatefulWidget {
   @override
   _OnboardState createState() => _OnboardState();
@@ -19,7 +17,7 @@ class _OnboardState extends State<Onboard> with SingleTickerProviderStateMixin {
     OnboardPageItem(
       lottieAsset: 'assets/animations/work_from_home2.json',
       text:
-          'Te gustaría recuperar el equilibrio te permita poder funcionar al máximo en tus actividades académicas.',
+          'Te gustaría recuperar el equilibrio que te permita poder funcionar al máximo en tus actividades académicas.',
     ),
     OnboardPageItem(
       lottieAsset: 'assets/animations/speaker.json',
@@ -38,7 +36,7 @@ class _OnboardState extends State<Onboard> with SingleTickerProviderStateMixin {
   List<Widget> onboardItems = [];
   double _activeIndex;
   bool onboardPage = false;
-  bool name ;
+  bool name;
 
   AnimationController _animationController;
 
@@ -111,10 +109,10 @@ class _OnboardState extends State<Onboard> with SingleTickerProviderStateMixin {
             bottom: 20,
             child: GestureDetector(
               onTap: () {
-                if(name){
-                  Navigator.pushNamed(context,"menu");
-                }else{
-                  Navigator.pushNamed(context,"perfil");
+                if (name) {
+                  Navigator.pushNamed(context, "menu");
+                } else {
+                  Navigator.pushNamed(context, "perfil");
                 }
               },
               child: FadingSlidingWidget(
@@ -158,6 +156,7 @@ class _OnboardState extends State<Onboard> with SingleTickerProviderStateMixin {
       ),
     );
   }
+
   Future<void> consultarPreferencia(String key) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     name = prefs.containsKey(key);

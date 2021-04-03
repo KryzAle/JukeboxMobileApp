@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:jukeboxapp/VrView.dart';
+import 'package:jukeboxapp/screens/instruccionesVr.dart';
 import 'package:jukeboxapp/services/painter.dart';
 import 'package:jukeboxapp/services/shape_models.dart';
 import 'package:jukeboxapp/services/tutorial_itens.dart';
@@ -151,84 +152,75 @@ class _Mp3DownloaderState extends State<Mp3Downloader> {
           style: TextStyle(color: Colors.black),
         ),
       ),
-      body: WillPopScope(
-          onWillPop: () {
-            Navigator.popAndPushNamed(context, "youtube");
-          },
-          child: Container(
-            margin: EdgeInsets.symmetric(vertical: 7.0),
-            padding: EdgeInsets.all(12.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Expanded(
-                    child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: <Widget>[
-                      Image.network(
-                        widget.imgYoutube,
-                      ),
-                      Padding(padding: EdgeInsets.only(bottom: 3.0)),
-                      Text(
-                        widget.tituloYoutube,
-                        softWrap: true,
-                        style: TextStyle(fontSize: 14.0),
-                        textAlign: TextAlign.center,
-                      ),
-                      Padding(padding: EdgeInsets.only(bottom: 1.5)),
-                      Text(
-                        widget.canalYoutube,
-                        softWrap: true,
-                        style: TextStyle(fontSize: 12.0),
-                      ),
-                      Padding(padding: EdgeInsets.only(bottom: 3.0)),
-                      Container(
-                        key: contenedorDownloader,
-                        constraints: BoxConstraints.expand(
-                          height:
-                              Theme.of(context).textTheme.headline4.fontSize *
-                                      1.1 +
-                                  200.0,
-                        ),
-                        padding: const EdgeInsets.all(8.0),
-                        alignment: Alignment.center,
-                        child: WebView(
-                          gestureNavigationEnabled: false,
-                          initialUrl:
-                              'https://www.yt-download.org/api/button/mp3/' +
-                                  widget.idYoutube,
-                          navigationDelegate: (NavigationRequest request) {
-                            if (request.url
-                                .startsWith('https://www.yt-download.org/')) {
-                              print('Conexion admitida a $request}');
-                              if (request.url.contains("/0")) {
-                                print("redirigir a vr");
-                                Navigator.pop(context);
-                                Navigator.push(context,
-                                    MaterialPageRoute(builder: (context) {
-                                  return VrView(
-                                    urlMp3: request.url,
-                                  );
-                                }));
-                              }
-                              return NavigationDecision.navigate;
-                            } else {
-                              print(
-                                  'Conexion bloqueada a la publicidad to $request}');
-                              return NavigationDecision.prevent;
-                            }
-                          },
-                          onPageFinished: (String url) {
-                            print("termino la carga");
-                            print(url);
-                          },
-                        ),
-                      ),
-                    ])),
-              ],
-            ),
-          )),
+      body: Container(
+        margin: EdgeInsets.symmetric(vertical: 7.0),
+        padding: EdgeInsets.all(12.0),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Expanded(
+                child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                  Image.network(
+                    widget.imgYoutube,
+                  ),
+                  Padding(padding: EdgeInsets.only(bottom: 3.0)),
+                  Text(
+                    widget.tituloYoutube,
+                    softWrap: true,
+                    style: TextStyle(fontSize: 14.0),
+                    textAlign: TextAlign.center,
+                  ),
+                  Padding(padding: EdgeInsets.only(bottom: 1.5)),
+                  Text(
+                    widget.canalYoutube,
+                    softWrap: true,
+                    style: TextStyle(fontSize: 12.0),
+                  ),
+                  Padding(padding: EdgeInsets.only(bottom: 3.0)),
+                  Container(
+                    key: contenedorDownloader,
+                    constraints: BoxConstraints.expand(
+                      height:
+                          Theme.of(context).textTheme.headline4.fontSize * 1.1 +
+                              200.0,
+                    ),
+                    padding: const EdgeInsets.all(8.0),
+                    alignment: Alignment.center,
+                    child: WebView(
+                      gestureNavigationEnabled: false,
+                      initialUrl:
+                          'https://www.yt-download.org/api/button/mp3/' +
+                              widget.idYoutube,
+                      navigationDelegate: (NavigationRequest request) {
+                        if (request.url
+                            .startsWith('https://www.yt-download.org/')) {
+                          print('Conexion admitida a $request}');
+                          if (request.url.contains("/0")) {
+                            Navigator.pop(context);
+                            Navigator.push(context,
+                                MaterialPageRoute(builder: (context) {
+                              return InstruccionesVR(
+                                urlMp3: request.url,
+                              );
+                            }));
+                          }
+                          return NavigationDecision.navigate;
+                        } else {
+                          print(
+                              'Conexion bloqueada a la publicidad to $request}');
+                          return NavigationDecision.prevent;
+                        }
+                      },
+                      onPageFinished: (String url) {},
+                    ),
+                  ),
+                ])),
+          ],
+        ),
+      ),
     );
   }
 
@@ -262,10 +254,5 @@ class _Mp3DownloaderState extends State<Mp3Downloader> {
 
   void deleteTargets() {
     itens.clear();
-    print(itens.length);
   }
-/*
-  void showTutorial() {
-    Tutorial.showTutorial(context, itens);
-  }*/
 }

@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:jukeboxapp/screens/Mp3Download.dart';
 import 'package:youtube_api/youtube_api.dart';
@@ -32,25 +31,37 @@ class _YtSearchState extends State<YtSearch> {
     super.initState();
     recomendaciones();
   }
-  Future<void> recomendaciones()async {
-    final artistas = ["badbunny","camilo","the weekend","shakira","anuel aa","Karol G","J balvin"];
-    var rnd = random(0,6);
-    print(rnd);
+
+  Future<void> recomendaciones() async {
+    final artistas = [
+      "badbunny",
+      "camilo",
+      "the weekend",
+      "shakira",
+      "anuel aa",
+      "Karol G",
+      "J balvin"
+    ];
+    var rnd = random(0, 6);
     ytResult = await ytApi.search(artistas[rnd]);
-    setState(() {
-      
-    });
+    setState(() {});
   }
-  int random(min, max){
+
+  int random(min, max) {
     var rn = new Random();
     return min + rn.nextInt(max - min);
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         iconTheme: IconThemeData(color: Color.fromRGBO(9, 133, 46, 100)),
         backgroundColor: Colors.white,
+        title: Text(
+          "Selecciona una canción",
+          style: TextStyle(color: Colors.black),
+        ),
         elevation: 0,
       ),
       body: Column(

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_unity_widget/flutter_unity_widget.dart';
 import 'package:jukeboxapp/screens/testFinal.dart';
 
@@ -18,42 +19,71 @@ class _VrViewState extends State<VrView> {
   static final GlobalKey<ScaffoldState> _scaffoldKey =
       GlobalKey<ScaffoldState>();
   UnityWidgetController _unityWidgetController;
+  bool _mostrarBoton = true;
+
+  @override
+  void initState() {
+    super.initState();
+  }
 
   Widget build(BuildContext context) {
-    return Scaffold(
-      key: _scaffoldKey,
-      body: SafeArea(
-        bottom: false,
-        child: WillPopScope(
-          onWillPop: () {
-            Navigator.pop(context);
-          },
-          child: Stack(
-            children: <Widget>[
-              UnityWidget(
-                onUnityCreated: onUnityCreated,
-                onUnityMessage: onUnityMessage,
-                onUnitySceneLoaded: onUnitySceneLoaded,
-                isARScene: true,
-                fullscreen: true,
-              ),
-              Positioned(
-                child: ElevatedButton(
-                  onPressed: () {
-                    cambiarCancion(widget.urlMp3);
-                  },
-                  child: Icon(
-                    Icons.play_arrow_outlined,
-                    color: Colors.white,
-                    size: 36.0,
-                  ),
-                ),
-              ),
-            ],
-          ),
+    return SafeArea(
+      bottom: false,
+      child: WillPopScope(
+        onWillPop: () {},
+        child: Stack(
+          children: <Widget>[
+            UnityWidget(
+              onUnityCreated: onUnityCreated,
+              onUnityMessage: onUnityMessage,
+              onUnitySceneLoaded: onUnitySceneLoaded,
+              isARScene: true,
+              fullscreen: true,
+            ),
+            !_mostrarBoton
+                ? Positioned(
+                    child: Container(
+                      margin: const EdgeInsets.all(10.0),
+                      color: Colors.black,
+                      width: 20.0,
+                      height: 20.0,
+                    ),
+                  )
+                : Positioned(
+                    left: 5.0,
+                    child:
+                        /*ElevatedButton.icon(
+                        label: Text('Iniciar'),
+                        icon: Icon(Icons.play_arrow_outlined),
+                        onPressed: () {
+                          cambiarCancion(widget.urlMp3);
+                        },
+                      ),*/
+                        ClipOval(
+                      child: Material(
+                        color: Colors.red, // button color
+                        child: InkWell(
+                          child: SizedBox(
+                              width: 40,
+                              height: 40,
+                              child: Icon(Icons.play_arrow_rounded)),
+                          onTap: () {
+                            cambiarCancion(widget.urlMp3);
+                            ocultarBoton();
+                          },
+                        ),
+                      ),
+                    )),
+          ],
         ),
       ),
     );
+  }
+
+  void ocultarBoton() {
+    setState(() {
+      _mostrarBoton = !_mostrarBoton;
+    });
   }
 
   // Callback that connects the created controller to the unity controller
@@ -74,10 +104,9 @@ class _VrViewState extends State<VrView> {
 
   void onUnityMessage(message) {
     print('Me llego de unity: ${message.toString()}');
-    Navigator.pop(context);
-    Navigator.push(context, MaterialPageRoute(builder: (context) {
-      return TestFinal();
-    }));
+    Navigator.pushReplacementNamed(context, 'postVRPhoto');
     //_unityWidgetController.quit(silent: true);
+    //_unityWidgetController.dispose();
+    //_unityWidgetController.unload();
   }
 }

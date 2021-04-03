@@ -29,9 +29,8 @@ class _TestInicialState extends State<TestInicial> {
       gestureNavigationEnabled: true,
       onPageFinished: (String url) {
         if (url.contains("formResponse")) {
-          print("formulario completado, token guardado");
           _tokenFormulario("formulariocompletado");
-          Navigator.popAndPushNamed(context,"tomar_foto");
+          Navigator.popAndPushNamed(context, "tomar_foto");
         }
       },
     );
