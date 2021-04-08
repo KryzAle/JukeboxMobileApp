@@ -31,7 +31,9 @@ dependencies:
   lottie: ^0.4.1
   webview_flutter:
   tutorial_coach_mark:
-  image_picker:
+  camera: ^0.5.7+2
+  path:
+  path_provider:
   youtube_api: 
     git:
       url: https://github.com/SahilKr24/youtube_api

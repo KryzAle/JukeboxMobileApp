@@ -1,9 +1,11 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:camera/camera.dart';
 import 'package:flutter/services.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:jukeboxapp/services/emociones_provider.dart';
+
+import 'camera.dart';
 
 class PostVRPhoto extends StatefulWidget {
   PostVRPhoto({Key key}) : super(key: key);
@@ -14,7 +16,6 @@ class PostVRPhoto extends StatefulWidget {
 
 class _PostVRPhotoState extends State<PostVRPhoto> {
   File foto;
-  final picker = ImagePicker();
   @override
   void initState() {
     super.initState();
@@ -90,27 +91,30 @@ class _PostVRPhotoState extends State<PostVRPhoto> {
     );
   }
 
-  _tomarFoto() async {
-    await _procesarImagen(ImageSource.camera);
-  }
 
-  _procesarImagen(ImageSource origen) async {
+  _tomarFoto() async {
     final api = EmocionesProvider();
     try {
-      final fotoPicker = await picker.getImage(source: origen);
-      if (fotoPicker?.path != null) {
-        _mostrarDialog();
-        foto = File(fotoPicker.path);
-        await api.getEmociones(foto);
-        Navigator.popUntil(context, ModalRoute.withName("menu"));
-      } else {
-        foto = null;
-      }
-      setState(() {});
+      final cameras = await availableCameras();
+    CameraDescription camera = cameras.firstWhere((description) =>
+        description.lensDirection == CameraLensDirection.front);
+
+    final result = await Navigator.push(context,
+        MaterialPageRoute(builder: (context) => CameraPage(camera: camera)));
+      if (result != null) {
+         _mostrarDialog();
+          foto = File(result);
+          await api.getEmociones(foto);
+          Navigator.popUntil(context, ModalRoute.withName("menu"));
+      } 
     } catch (e) {
       print(e);
       Navigator.pop(context);
+      _mostrarDialogError();
     }
+
+    
+   
   }
 
   void _mostrarDialog() {
@@ -133,6 +137,19 @@ class _PostVRPhotoState extends State<PostVRPhoto> {
                       ),
                 ),
               ],
+            ),
+          );
+        });
+  }
+
+  void _mostrarDialogError() {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text("No se ha podido procesar"),
+            content: Text(
+              "Asegurate que tu rostro se vea claramente en la cámara",
             ),
           );
         });

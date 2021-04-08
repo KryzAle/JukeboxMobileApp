@@ -1,7 +1,8 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
+import 'package:camera/camera.dart';
+import 'package:jukeboxapp/screens/camera.dart';
 import 'package:jukeboxapp/services/emociones_provider.dart';
 
 class TakePhoto extends StatefulWidget {
@@ -13,7 +14,6 @@ class TakePhoto extends StatefulWidget {
 
 class _TakePhotoState extends State<TakePhoto> {
   File foto;
-  final picker = ImagePicker();
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -82,30 +82,30 @@ class _TakePhotoState extends State<TakePhoto> {
   }
 
   _tomarFoto() async {
-    await _procesarImagen(ImageSource.camera);
-  }
-
-  _procesarImagen(ImageSource origen) async {
     final api = EmocionesProvider();
     try {
-      final fotoPicker =
-          await picker.getImage(source: origen, maxHeight: 864, maxWidth: 1152);
-      if (fotoPicker?.path != null) {
-        _mostrarDialog();
-        foto = File(fotoPicker.path);
-        await api.getEmociones(foto);
-        setState(() {});
-        Navigator.pop(context);
-        Navigator.pushReplacementNamed(context, "youtube");
-      } else {
-        foto = null;
-      }
-      setState(() {});
+      final cameras = await availableCameras();
+    CameraDescription camera = cameras.firstWhere((description) =>
+        description.lensDirection == CameraLensDirection.front);
+
+    final result = await Navigator.push(context,
+        MaterialPageRoute(builder: (context) => CameraPage(camera: camera)));
+      if (result != null) {
+         _mostrarDialog();
+          foto = File(result);
+          await api.getEmociones(foto);
+          setState(() {});
+          Navigator.pop(context);
+          Navigator.pushReplacementNamed(context, "youtube");
+      } 
     } catch (e) {
       print(e);
       Navigator.pop(context);
       _mostrarDialogError();
     }
+
+    
+   
   }
 
   void _mostrarDialog() {
@@ -141,7 +141,6 @@ class _TakePhotoState extends State<TakePhoto> {
             title: Text("No se ha podido procesar"),
             content: Text(
               "Asegurate que tu rostro se vea claramente en la cámara",
-              textAlign: TextAlign.center,
             ),
           );
         });
