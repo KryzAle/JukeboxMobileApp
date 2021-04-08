@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -9,8 +11,9 @@ class PerfilPage extends StatefulWidget {
 }
 
 class _PerfilPageState extends State<PerfilPage> {
-  final name = TextEditingController();
-  final lastname = TextEditingController();
+  //final user = TextEditingController();
+  final formKey = GlobalKey<FormState>();
+  String usuario;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -21,74 +24,104 @@ class _PerfilPageState extends State<PerfilPage> {
         elevation: 0.0,
       ),
       body: _crearBody(),
-    ); 
+    );
   }
 
   Widget _crearBody() {
     return SingleChildScrollView(
-          child: Column(
+      child: Column(
         children: [
           Image(image: AssetImage("assets/images/logo.png")),
-          Text("Queremos saber como te llamas",
+          Text(
+            "Para poder identificarte mejor",
             style: TextStyle(
               fontWeight: FontWeight.w500,
-              color:Colors.black,
+              color: Colors.black,
               fontSize: 20.0,
             ),
           ),
-          SizedBox(height: 10.0,),
-          Container(
-            width: double.infinity,
-            padding: EdgeInsets.symmetric(vertical: 10.0,horizontal: 30.0),
-            child: TextField(
-              controller: name,
-              decoration: InputDecoration(
-                border: OutlineInputBorder(
-                  borderRadius: const BorderRadius.all(
-                    const Radius.circular(30.0),
-                  ),
-                ),
-                hintText: 'Nombre'
-              ),
+          SizedBox(
+            height: 10.0,
+          ),
+          Text(
+            "Necesitamos tu correo electrónico de Mi ESPE",
+            style: TextStyle(
+              fontWeight: FontWeight.w500,
+              color: Colors.black,
+              fontSize: 20.0,
             ),
           ),
-          Container(
-            width: double.infinity,
-            padding: EdgeInsets.symmetric(vertical: 10.0,horizontal: 30.0),
-            child: TextField(
-              controller: lastname,
-              decoration: InputDecoration(
-                border: OutlineInputBorder(
-                  borderRadius: const BorderRadius.all(
-                    const Radius.circular(30.0),
+          SizedBox(
+            height: 10.0,
+          ),
+          Row(
+            children: [
+              Expanded(
+                child: Container(
+                  width: double.infinity,
+                  padding: EdgeInsets.only(left: 50),
+                  child: Form(
+                    key: formKey,
+                    child: TextFormField(
+                      decoration: InputDecoration(
+                          border: OutlineInputBorder(
+                            borderRadius: const BorderRadius.all(
+                              const Radius.circular(20.0),
+                            ),
+                          ),
+                          hintText: 'Usuario'),
+                      onSaved: (String value) {
+                        usuario = value;
+                      },
+                      validator: (value) {
+                        if (value.isEmpty) {
+                          return 'Ingrese su usuario';
+                        }
+                        return null;
+                      },
+                    ),
                   ),
                 ),
-                hintText: 'Apellido'
               ),
-            ),
+              SizedBox(
+                width: 10.0,
+              ),
+              Expanded(
+                child: Container(
+                  width: double.infinity,
+                  child: Text(
+                    "@espe.edu.ec",
+                    textAlign: TextAlign.left,
+                    style: TextStyle(fontSize: 18),
+                  ),
+                ),
+              ),
+            ],
           ),
           Container(
-            padding: EdgeInsets.symmetric(horizontal: 40.0,vertical: 20.0),
+            padding: EdgeInsets.symmetric(horizontal: 40.0, vertical: 20.0),
             width: double.infinity,
             child: ElevatedButton(
               child: Text("Continuar"),
-              onPressed:(){
-                _guardarNombre("name",name.text,lastname.text);
-                FocusScope.of(context).unfocus();
-                Navigator.pushReplacementNamed(context, "menu");
+              onPressed: () {
+                if (formKey.currentState.validate()) {
+                  formKey.currentState.save();
+                  _guardarUsuario("name", usuario);
+                  FocusScope.of(context).unfocus();
+                  Navigator.pushReplacementNamed(context, "menu");
+                } else {
+                  print('Formulario Vacio');
+                }
               },
               style: ElevatedButton.styleFrom(
-                primary: Colors.deepPurple[300],
-                elevation: 3,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20.0),
-                ),
-                padding: EdgeInsets.all(15),
-                textStyle: TextStyle(
-                  fontSize: 17.0
-                ),
-                animationDuration: Duration(minutes: 3)
-              ),
+                  primary: Colors.deepPurple[300],
+                  elevation: 3,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20.0),
+                  ),
+                  padding: EdgeInsets.all(15),
+                  textStyle: TextStyle(fontSize: 17.0),
+                  animationDuration: Duration(minutes: 3)),
             ),
           )
         ],
@@ -96,9 +129,8 @@ class _PerfilPageState extends State<PerfilPage> {
     );
   }
 
-  _guardarNombre(String key, String name,String lastname) async{
-    String fullName = "$name $lastname";
+  _guardarUsuario(String key, String user) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setString(key, fullName);
+    prefs.setString(key, user);
   }
 }

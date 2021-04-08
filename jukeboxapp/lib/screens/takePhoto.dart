@@ -138,9 +138,11 @@ class _TakePhotoState extends State<TakePhoto> {
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            title: Text("Error"),
+            title: Text("No se ha podido procesar"),
             content: Text(
-                "Se ha producido un error, asegurate de encuadrar tu rostro en la cámara."),
+              "Asegurate que tu rostro se vea claramente en la cámara",
+              textAlign: TextAlign.center,
+            ),
           );
         });
   }
