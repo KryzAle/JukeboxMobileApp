@@ -27,7 +27,7 @@ class _TestInicialState extends State<TestInicial> {
         centerTitle: true,
         elevation: 0.0,
         title: Text(
-          "Iniciar Sesión",
+          "Formulario Inicial",
           style: TextStyle(color: Colors.black),
         ),
       ),
