@@ -106,7 +106,10 @@ class MenuSwiper extends StatelessWidget {
                             "Ayuda",
                             style: TextStyle(fontSize: 16),
                           ),
-                          onPressed: () => soundService.playSound('click'),
+                          onPressed: () {
+                            Navigator.pushNamed(context, "charts");
+                            soundService.playSound('click');
+                          },
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(20)),
                           color: Colors.cyan[100],

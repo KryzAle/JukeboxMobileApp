@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:jukeboxapp/screens/controlpage.dart';
 import 'package:jukeboxapp/screens/menuSwiper.dart';
 import 'package:jukeboxapp/screens/perfil.dart';
 import 'package:jukeboxapp/screens/postVrPhoto.dart';
@@ -16,5 +17,6 @@ Map<String, WidgetBuilder> getAplicationRoutes() {
     'testInicial': (BuildContext context) => TestInicial(),
     'postVRPhoto': (BuildContext context) => PostVRPhoto(),
     'testFinal': (BuildContext context) => TestFinal(),
+    'charts': (BuildContext context) => ControlPage(),
   };
 }
