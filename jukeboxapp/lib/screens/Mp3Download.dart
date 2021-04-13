@@ -191,14 +191,13 @@ class _Mp3DownloaderState extends State<Mp3Downloader> {
                     alignment: Alignment.center,
                     child: WebView(
                       gestureNavigationEnabled: false,
-                      initialUrl:
-                          'https://www.yt-download.org/api/button/mp3/' +
-                              widget.idYoutube,
+                      javascriptMode: JavascriptMode.unrestricted,
+                      initialUrl: 'https://toquemp3.com/@api/button/mp3/' +
+                          widget.idYoutube,
                       navigationDelegate: (NavigationRequest request) {
-                        if (request.url
-                            .startsWith('https://www.yt-download.org/')) {
+                        if (request.url.contains('toquemp3.com')) {
                           print('Conexion admitida a $request}');
-                          if (request.url.contains("/0")) {
+                          if (request.url.contains(".mp3")) {
                             Navigator.pop(context);
                             Navigator.push(context,
                                 MaterialPageRoute(builder: (context) {

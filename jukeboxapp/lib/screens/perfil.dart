@@ -43,12 +43,15 @@ class _PerfilPageState extends State<PerfilPage> {
           SizedBox(
             height: 10.0,
           ),
-          Text(
-            "Necesitamos tu correo electrónico de Mi ESPE",
-            style: TextStyle(
-              fontWeight: FontWeight.w500,
-              color: Colors.black,
-              fontSize: 20.0,
+          Container(
+            margin: EdgeInsets.symmetric(horizontal: 40),
+            child: Text(
+              "Necesitamos tu correo electrónico institucional",
+              style: TextStyle(
+                fontWeight: FontWeight.w500,
+                color: Colors.black,
+                fontSize: 20.0,
+              ),
             ),
           ),
           SizedBox(
