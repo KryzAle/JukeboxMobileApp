@@ -42,7 +42,7 @@ dependencies:
   shared_preferences: ^2.0.4
   image:
   exif:
-
+  fl_chart: ^0.35.0
 
 
 
