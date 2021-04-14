@@ -16,4 +16,8 @@ public class Colision : MonoBehaviour
         Destroy(gameObject);
 
     }
+    void Update()
+    {
+        Destroy(gameObject,3);
+    }
 }

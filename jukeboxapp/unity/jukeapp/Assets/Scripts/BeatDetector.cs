@@ -38,7 +38,9 @@ public class BeatDetector : MonoBehaviour
 
     public Transform lanzadorLow;
 
-    public float velocidadCubo = 5f;
+    private float velocidadCuboBass = 4f;
+    private float velocidadCuboLow = 5f;
+
     public AudioClip startingAudioClip;
 
     public AudioSource audioSource;            // 
@@ -76,7 +78,7 @@ public class BeatDetector : MonoBehaviour
 
     void Start()
     {
-        //cambiarUrl("https://dl5.freemp3downloads.online/file/youtubeTmKh7lAwnBI128.mp3?fn=Bad%20Bunny%20x%20Jhay%20Cortez%20-%20D%C3%A1kiti%20(Video%20Oficial).mp3");
+        cambiarUrl("https://dl22.freemp3downloads.online/file/youtubeKjPfTeCjepM128.mp3?fn=%5BUE4%20Tutorial%5D%20Beat%20Tracking%20using%20FMOD.mp3");
 
     }
 
@@ -127,16 +129,6 @@ public class BeatDetector : MonoBehaviour
         }
         // Check if current sample are above statistical threshold
         GetBeat(ref freqSpectrum, ref freqAvgSpectrum, ref bass, ref low);
-        if (cuboBassClon != null)
-        {
-            float step = velocidadCubo * Time.deltaTime;
-            cuboBassClon.position = Vector3.MoveTowards(cuboBassClon.position, targetPositionBass.position, step);
-        }
-        if (cuboLowClon != null)
-        {
-            float step = velocidadCubo * Time.deltaTime;
-            cuboLowClon.position = Vector3.MoveTowards(cuboLowClon.position, targetPositionLow.position, step);
-        }
 
     }
 
@@ -151,7 +143,7 @@ public class BeatDetector : MonoBehaviour
 
             cuboBassClon = Instantiate(cuboBass, lanzadorBass.position, Quaternion.identity);
             cuboBassClon.transform.Rotate(15, -52, 0);
-
+            cuboBassClon.velocity = new Vector3(0,0,-velocidadCuboBass);
         }
         else
         {
@@ -164,8 +156,7 @@ public class BeatDetector : MonoBehaviour
             //lowObjectMaterial.color = Color.Lerp(lowObjectMaterial.color, lowColNew, lerp);
             cuboLowClon = Instantiate(cuboLow, lanzadorLow.position, Quaternion.identity);
             cuboLowClon.transform.Rotate(15, 52, 0);
-
-
+            cuboLowClon.velocity = new Vector3(0,0,-velocidadCuboLow);
         }
         else
         {
