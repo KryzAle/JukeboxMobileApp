@@ -8,8 +8,8 @@ class LineChartPage extends StatefulWidget {
 
 class LineChartPageState extends State<LineChartPage> {
   List<Color> gradientColors = [
-     Color(0xff23b6e6),
-     Color(0xff02d39a),
+    Color(0xff23b6e6),
+    Color(0xff02d39a),
   ];
 
   bool showAvg = false;
@@ -19,96 +19,113 @@ class LineChartPageState extends State<LineChartPage> {
     return ListView(
       children: [
         Container(
-          child: Text("Feliz",style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold,color: Colors.black),),
+          child: Text(
+            "Feliz",
+            style: TextStyle(
+                fontSize: 16, fontWeight: FontWeight.bold, color: Colors.black),
+          ),
           alignment: Alignment.centerLeft,
-          padding: EdgeInsets.symmetric(horizontal: 10.0,vertical: 10.0),
+          padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
         ),
         AspectRatio(
           aspectRatio: 3,
           child: Padding(
-            padding: EdgeInsets.only(
-                right: 18.0, left: 12.0),
+            padding: EdgeInsets.only(right: 18.0, left: 12.0),
             child: LineChart(
               mainData(),
             ),
           ),
         ),
         Container(
-          child: Text("Triste",style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold,color: Colors.black),),
+          child: Text(
+            "Triste",
+            style: TextStyle(
+                fontSize: 16, fontWeight: FontWeight.bold, color: Colors.black),
+          ),
           alignment: Alignment.centerLeft,
-          padding: EdgeInsets.symmetric(horizontal: 10.0,vertical: 10.0),
+          padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
         ),
         AspectRatio(
           aspectRatio: 3,
           child: Padding(
-            padding: EdgeInsets.only(
-                right: 18.0, left: 12.0),
+            padding: EdgeInsets.only(right: 18.0, left: 12.0),
             child: LineChart(
               mainData(),
             ),
           ),
         ),
         Container(
-          child: Text("Enojado",style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold,color: Colors.black),),
+          child: Text(
+            "Enojado",
+            style: TextStyle(
+                fontSize: 16, fontWeight: FontWeight.bold, color: Colors.black),
+          ),
           alignment: Alignment.centerLeft,
-          padding: EdgeInsets.symmetric(horizontal: 10.0,vertical: 10.0),
+          padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
         ),
         AspectRatio(
           aspectRatio: 3,
           child: Padding(
-            padding: EdgeInsets.only(
-                right: 18.0, left: 12.0),
+            padding: EdgeInsets.only(right: 18.0, left: 12.0),
             child: LineChart(
               mainData(),
             ),
           ),
         ),
         Container(
-          child: Text("Asustado",style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold,color: Colors.black),),
+          child: Text(
+            "Asustado",
+            style: TextStyle(
+                fontSize: 16, fontWeight: FontWeight.bold, color: Colors.black),
+          ),
           alignment: Alignment.centerLeft,
-          padding: EdgeInsets.symmetric(horizontal: 10.0,vertical: 10.0),
+          padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
         ),
         AspectRatio(
           aspectRatio: 3,
           child: Padding(
-            padding: EdgeInsets.only(
-                right: 18.0, left: 12.0),
+            padding: EdgeInsets.only(right: 18.0, left: 12.0),
             child: LineChart(
               mainData(),
             ),
           ),
         ),
         Container(
-          child: Text("Sorprendido",style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold,color: Colors.black),),
+          child: Text(
+            "Sorprendido",
+            style: TextStyle(
+                fontSize: 16, fontWeight: FontWeight.bold, color: Colors.black),
+          ),
           alignment: Alignment.centerLeft,
-          padding: EdgeInsets.symmetric(horizontal: 10.0,vertical: 10.0),
+          padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
         ),
         AspectRatio(
           aspectRatio: 3,
           child: Padding(
-            padding: EdgeInsets.only(
-                right: 18.0, left: 12.0),
+            padding: EdgeInsets.only(right: 18.0, left: 12.0),
             child: LineChart(
               mainData(),
             ),
           ),
         ),
         Container(
-          child: Text("Disgustado",style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold,color: Colors.black),),
+          child: Text(
+            "Disgustado",
+            style: TextStyle(
+                fontSize: 16, fontWeight: FontWeight.bold, color: Colors.black),
+          ),
           alignment: Alignment.centerLeft,
-          padding: EdgeInsets.symmetric(horizontal: 10.0,vertical: 10.0),
+          padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
         ),
         AspectRatio(
           aspectRatio: 3,
           child: Padding(
-            padding: EdgeInsets.only(
-                right: 18.0, left: 12.0),
+            padding: EdgeInsets.only(right: 18.0, left: 12.0),
             child: LineChart(
               mainData(),
             ),
           ),
         ),
-        
       ],
     );
   }

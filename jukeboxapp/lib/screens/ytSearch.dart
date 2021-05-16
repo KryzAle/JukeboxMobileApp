@@ -159,12 +159,13 @@ class _YtSearchState extends State<YtSearch> {
 
   void _lanzarDownloader(
       String url, String urlImg, String titulo, String canal) {
-    int tamUrl = url.indexOf("v=");
+    //int tamUrl = url.indexOf("v=");
     Navigator.push(
         context,
         MaterialPageRoute(
             builder: (BuildContext context) => Mp3Downloader(
-                  idYoutube: url.substring(tamUrl + 2),
+                  //idYoutube: url.substring(tamUrl + 2),
+                  idYoutube: url,
                   imgYoutube: urlImg,
                   canalYoutube: canal,
                   tituloYoutube: titulo,

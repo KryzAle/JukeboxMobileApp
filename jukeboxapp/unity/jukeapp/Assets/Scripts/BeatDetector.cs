@@ -78,7 +78,7 @@ public class BeatDetector : MonoBehaviour
 
     void Start()
     {
-        cambiarUrl("https://dl22.freemp3downloads.online/file/youtubeKjPfTeCjepM128.mp3?fn=%5BUE4%20Tutorial%5D%20Beat%20Tracking%20using%20FMOD.mp3");
+        //cambiarUrl("https://dl22.freemp3downloads.online/file/youtubeKjPfTeCjepM128.mp3?fn=%5BUE4%20Tutorial%5D%20Beat%20Tracking%20using%20FMOD.mp3");
 
     }
 

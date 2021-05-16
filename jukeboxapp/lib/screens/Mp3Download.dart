@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:jukeboxapp/VrView.dart';
 import 'package:jukeboxapp/screens/instruccionesVr.dart';
@@ -31,6 +33,9 @@ class _Mp3DownloaderState extends State<Mp3Downloader> {
   List<OverlayEntry> entrys = [];
   OverlayState overlayState;
   int count = 0;
+  WebViewController _mycontroller;
+  final Completer<WebViewController> _controller =
+      Completer<WebViewController>();
 
   @override
   void initState() {
@@ -163,41 +168,48 @@ class _Mp3DownloaderState extends State<Mp3Downloader> {
                 child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: <Widget>[
-                  Image.network(
+                  /*Image.network(
                     widget.imgYoutube,
-                  ),
-                  Padding(padding: EdgeInsets.only(bottom: 3.0)),
-                  Text(
+                  ),*/
+                  //Padding(padding: EdgeInsets.only(bottom: 3.0)),
+                  /*Text(
                     widget.tituloYoutube,
                     softWrap: true,
                     style: TextStyle(fontSize: 14.0),
                     textAlign: TextAlign.center,
-                  ),
-                  Padding(padding: EdgeInsets.only(bottom: 1.5)),
-                  Text(
+                  ),*/
+                  //Padding(padding: EdgeInsets.only(bottom: 1.5)),
+                  /*Text(
                     widget.canalYoutube,
                     softWrap: true,
                     style: TextStyle(fontSize: 12.0),
-                  ),
-                  Padding(padding: EdgeInsets.only(bottom: 3.0)),
+                  ),*/
+                  //Padding(padding: EdgeInsets.only(bottom: 3.0)),
+
                   Container(
                     key: contenedorDownloader,
                     constraints: BoxConstraints.expand(
                       height:
                           Theme.of(context).textTheme.headline4.fontSize * 1.1 +
-                              200.0,
+                              500.0,
                     ),
-                    padding: const EdgeInsets.all(8.0),
+                    padding: const EdgeInsets.all(10.0),
                     alignment: Alignment.center,
                     child: WebView(
+                      onWebViewCreated: (controller) {
+                        _controller.complete(controller);
+
+                        _mycontroller = controller;
+                      },
                       gestureNavigationEnabled: false,
                       javascriptMode: JavascriptMode.unrestricted,
-                      initialUrl: 'https://toquemp3.com/@api/button/mp3/' +
+                      initialUrl: 'https://yt1s.com/youtube-to-mp3/es?q=' +
                           widget.idYoutube,
                       navigationDelegate: (NavigationRequest request) {
-                        if (request.url.contains('toquemp3.com')) {
+                        if (request.url.contains('yt1s.com') ||
+                            request.url.contains("file=")) {
                           print('Conexion admitida a $request}');
-                          if (request.url.contains(".mp3")) {
+                          if (request.url.contains("file=")) {
                             Navigator.pop(context);
                             Navigator.push(context,
                                 MaterialPageRoute(builder: (context) {
@@ -213,7 +225,33 @@ class _Mp3DownloaderState extends State<Mp3Downloader> {
                           return NavigationDecision.prevent;
                         }
                       },
-                      onPageFinished: (String url) {},
+                      onPageFinished: (String url) {
+                        _mycontroller.evaluateJavascript(
+                            "document.getElementsByTagName('header')[0].style.display='none';");
+                        _mycontroller.evaluateJavascript(
+                            "document.getElementsByTagName('h1')[0].style.display='none';");
+                        _mycontroller.evaluateJavascript(
+                            "document.getElementsByTagName('p')[0].style.display='none';");
+                        _mycontroller.evaluateJavascript(
+                            "document.querySelector('body > div > div:nth-child(2)').style.display='none';");
+                        _mycontroller.evaluateJavascript(
+                            "document.querySelector('body > div > div:nth-child(3)').style.display='none';");
+                        _mycontroller.evaluateJavascript(
+                            "document.querySelector('body > div > div:nth-child(4)').style.display='none';");
+                        _mycontroller.evaluateJavascript(
+                            "document.getElementsByTagName('footer')[0].style.display='none';");
+                        _mycontroller.evaluateJavascript(
+                            "document.getElementsByTagName('p')[1].style.display='none';");
+                        Future.delayed(Duration(seconds: 2)).then((value) {
+                          //_mycontroller.evaluateJavascript("document.querySelector('#search-result > div > div > img').style.display='none';");
+                          _mycontroller.evaluateJavascript(
+                              "document.getElementById('cnext').style.display='none';");
+                          //_mycontroller.evaluateJavascript("document.getElementsByTagName('p')[2].style.display='none';");
+                          //_mycontroller.evaluateJavascript("document.getElementsByTagName('h3')[0].style.display='none';");
+                          _mycontroller.evaluateJavascript(
+                              "document.getElementsByClassName('at-share-btn-elements')[0].style.display='none';");
+                        });
+                      },
                     ),
                   ),
                 ])),
@@ -228,15 +266,16 @@ class _Mp3DownloaderState extends State<Mp3Downloader> {
       TutorialItens(
           globalKey: contenedorDownloader,
           touchScreen: true,
-          bottom: 50,
+          bottom: 20,
           left: 50,
           children: [
             Text(
-              "Seleccione la calidad de audio, una mayor calidad asegura una mejor experiencia pero el tiempo de carga será mayor",
+              //"Seleccione la calidad de audio, una mayor calidad asegura una mejor experiencia pero el tiempo de carga será mayor",
+              "Seleccione el boton de descarga para continuar",
               style: TextStyle(color: Colors.white, fontSize: 16),
             ),
             SizedBox(
-              height: 100,
+              height: 50,
             ),
           ],
           widgetNext: Text(
@@ -252,6 +291,7 @@ class _Mp3DownloaderState extends State<Mp3Downloader> {
   }
 
   void deleteTargets() {
+    _mycontroller.reload();
     itens.clear();
   }
 }

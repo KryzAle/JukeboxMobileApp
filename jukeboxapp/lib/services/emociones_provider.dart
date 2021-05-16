@@ -5,6 +5,7 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:exif/exif.dart';
 import 'package:image/image.dart' as img;
+import 'package:jukeboxapp/model/emociones.dart';
 
 class EmocionesProvider {
   String _url = "http://142.93.253.80/emociones";
@@ -27,6 +28,22 @@ class EmocionesProvider {
       print(response.body);
     } else {
       throw ("Error");
+    }
+  }
+
+  Future<List<Emociones>> getControlEmociones() async {
+    List<Emociones> listaEmociones = [];
+    final fullName = await _getFullName();
+    var response = await http
+        .get(Uri.http("142.93.253.80", "/emociones", {"fullname": fullName}));
+    if (response.statusCode == 200) {
+      List<dynamic> respuesta = jsonDecode(response.body);
+      for (var emocion in respuesta) {
+        listaEmociones.add(Emociones.fromJson(emocion));
+      }
+      return listaEmociones;
+    } else {
+      throw Exception('Error descargando emociones');
     }
   }
 

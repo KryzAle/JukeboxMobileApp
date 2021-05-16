@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:jukeboxapp/components/btn.dart';
+import 'package:jukeboxapp/services/emociones_provider.dart';
 import 'package:jukeboxapp/services/sound.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -11,6 +12,7 @@ class MenuSwiper extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final api = EmocionesProvider();
     return WillPopScope(
       onWillPop: () {
         Navigator.pop(context);
