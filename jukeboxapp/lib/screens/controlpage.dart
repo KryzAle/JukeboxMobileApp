@@ -40,17 +40,60 @@ class _ControlPageState extends State<ControlPage> {
                 if (snapshot.hasData) {
                   print(snapshot.data.last.fecha);
                   return PieChartPage(
-                    emocionAntes: snapshot.data.first,
-                    emocionDespues: snapshot.data.last,
+                    emocionAntes: snapshot.data[snapshot.data.length - 2],
+                    emocionDespues: snapshot.data[snapshot.data.length - 1],
                   );
                 } else if (snapshot.hasError) {
                   return Text("${snapshot.error}");
                 }
-
-                return CircularProgressIndicator();
+                return Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      CircularProgressIndicator(),
+                      SizedBox(
+                        height: 20.0,
+                      ),
+                      Text(
+                        "Procesando...",
+                        style: Theme.of(context).textTheme.subtitle2.copyWith(
+                              color: Colors.white,
+                            ),
+                      ),
+                    ],
+                  ),
+                );
               },
             ),
-            LineChartPage(),
+            FutureBuilder<List<Emociones>>(
+              future: api.getControlEmociones(),
+              builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  print(snapshot.data.last.fecha);
+                  return LineChartPage(historico: snapshot.data);
+                } else if (snapshot.hasError) {
+                  return Text("${snapshot.error}");
+                }
+                return Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      CircularProgressIndicator(),
+                      SizedBox(
+                        height: 20.0,
+                      ),
+                      Text(
+                        "Procesando...",
+                        style: Theme.of(context).textTheme.subtitle2.copyWith(
+                              color: Colors.white,
+                            ),
+                      ),
+                    ],
+                  ),
+                );
+              },
+            ),
+            //LineChartPage(),
           ]),
         ));
   }
