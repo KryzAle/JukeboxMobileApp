@@ -35,66 +35,58 @@ class _ControlPageState extends State<ControlPage> {
           ),
           body: TabBarView(children: [
             FutureBuilder<List<Emociones>>(
+              initialData: [],
               future: api.getControlEmociones(),
               builder: (context, snapshot) {
-                if (snapshot.hasData) {
-                  print(snapshot.data.last.fecha);
+                if (snapshot.hasData && snapshot.data.length>0) {
                   return PieChartPage(
                     emocionAntes: snapshot.data[snapshot.data.length - 2],
                     emocionDespues: snapshot.data[snapshot.data.length - 1],
                   );
-                } else if (snapshot.hasError) {
-                  return Text("${snapshot.error}");
+                } else if (snapshot.data.length==0) {
+                  return Center(
+                    child: Text("No existen datos que mostrar"),
+                  );
                 }
-                return Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      CircularProgressIndicator(),
-                      SizedBox(
-                        height: 20.0,
-                      ),
-                      Text(
-                        "Procesando...",
-                        style: Theme.of(context).textTheme.subtitle2.copyWith(
-                              color: Colors.white,
-                            ),
-                      ),
-                    ],
-                  ),
-                );
+                return _progressIndicator();
               },
             ),
             FutureBuilder<List<Emociones>>(
+              initialData: [],
               future: api.getControlEmociones(),
               builder: (context, snapshot) {
-                if (snapshot.hasData) {
-                  print(snapshot.data.last.fecha);
+                if (snapshot.hasData && snapshot.data.length > 0) {
                   return LineChartPage(historico: snapshot.data);
-                } else if (snapshot.hasError) {
-                  return Text("${snapshot.error}");
+                } else if (snapshot.data.length==0) {
+                  return Center(
+                    child: Text("No existen datos que mostrar"),
+                  );
                 }
-                return Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      CircularProgressIndicator(),
-                      SizedBox(
-                        height: 20.0,
-                      ),
-                      Text(
-                        "Procesando...",
-                        style: Theme.of(context).textTheme.subtitle2.copyWith(
-                              color: Colors.white,
-                            ),
-                      ),
-                    ],
-                  ),
-                );
+                return _progressIndicator();
               },
             ),
             //LineChartPage(),
           ]),
         ));
+  }
+
+  Widget _progressIndicator() {
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          CircularProgressIndicator(),
+          SizedBox(
+            height: 20.0,
+          ),
+          Text(
+            "Procesando...",
+            style: Theme.of(context).textTheme.subtitle2.copyWith(
+                  color: Colors.white,
+                ),
+          ),
+        ],
+      ),
+    );
   }
 }

@@ -15,10 +15,12 @@ class SoundService {
   }
 
   playSound(String sound) {
-    print(sound);
     bool isSoundEnabled = _enableSound$.value;
     if (isSoundEnabled) {
       _player.play("click.mp3");
     }
+  }
+  void dispose(){
+    _enableSound$.close();
   }
 }

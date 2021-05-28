@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:jukeboxapp/model/onboard_page_item.dart';
@@ -46,7 +45,6 @@ class _OnboardState extends State<Onboard> with SingleTickerProviderStateMixin {
     _pageController = PageController();
     _pageController.addListener(() {
       _activeIndex = _pageController.page;
-      print("Active Index: $_activeIndex");
       if (_activeIndex >= 0.5 && onboardPage == false) {
         setState(() {
           onboardPage = true;

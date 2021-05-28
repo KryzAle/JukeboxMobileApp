@@ -3,7 +3,6 @@ import 'dart:ui';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
-import 'dart:io';
 
 import 'package:jukeboxapp/model/emociones.dart';
 
@@ -494,12 +493,12 @@ class _PieChartPageState extends State<PieChartPage> {
   }
 }
 
-class _Badge extends StatelessWidget {
+class Badge extends StatelessWidget {
   final String svgAsset;
   final double size;
   final Color borderColor;
 
-  const _Badge(
+  const Badge(
     this.svgAsset, {
     Key key,
     @required this.size,

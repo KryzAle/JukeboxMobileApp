@@ -25,7 +25,6 @@ class EmocionesProvider {
       if (body['message'] == "No se a encontrado una emocion") {
         throw ("NO se pudo analizar");
       }
-      print(response.body);
     } else {
       throw ("Error");
     }

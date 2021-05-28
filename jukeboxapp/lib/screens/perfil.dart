@@ -135,5 +135,6 @@ class _PerfilPageState extends State<PerfilPage> {
   _guardarUsuario(String key, String user) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setString(key, user);
+    prefs.setInt("sesiones", 0);
   }
 }

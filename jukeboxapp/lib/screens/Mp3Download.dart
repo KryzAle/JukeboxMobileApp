@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:jukeboxapp/VrView.dart';
 import 'package:jukeboxapp/screens/instruccionesVr.dart';
 import 'package:jukeboxapp/services/painter.dart';
 import 'package:jukeboxapp/services/shape_models.dart';
@@ -50,13 +49,12 @@ class _Mp3DownloaderState extends State<Mp3Downloader> {
 
   @override
   void dispose() {
-    Future.delayed(Duration(microseconds: 200)).then((value) {
+    if(count!=entrys.length){
+      Future.delayed(Duration(microseconds: 200)).then((value) {
       entrys[count].remove();
       count++;
-      if (count != entrys.length) {
-        overlayState.insert(entrys[count]);
-      }
     });
+    }
     super.dispose();
   }
 
@@ -185,17 +183,10 @@ class _Mp3DownloaderState extends State<Mp3Downloader> {
                     style: TextStyle(fontSize: 12.0),
                   ),*/
                   //Padding(padding: EdgeInsets.only(bottom: 3.0)),
-
                   Container(
-                    key: contenedorDownloader,
-                    constraints: BoxConstraints.expand(
-                      height:
-                          Theme.of(context).textTheme.headline4.fontSize * 1.1 +
-                              500.0,
-                    ),
-                    padding: const EdgeInsets.all(10.0),
-                    alignment: Alignment.center,
+                    height: 460,
                     child: WebView(
+                      key: contenedorDownloader,
                       onWebViewCreated: (controller) {
                         _controller.complete(controller);
 
@@ -204,11 +195,10 @@ class _Mp3DownloaderState extends State<Mp3Downloader> {
                       gestureNavigationEnabled: false,
                       javascriptMode: JavascriptMode.unrestricted,
                       initialUrl: 'https://yt1s.com/youtube-to-mp3/es?q=' +
-                          widget.idYoutube,
+                          widget.idYoutube+'&ab_channel='+widget.canalYoutube,
                       navigationDelegate: (NavigationRequest request) {
                         if (request.url.contains('yt1s.com') ||
                             request.url.contains("file=")) {
-                          print('Conexion admitida a $request}');
                           if (request.url.contains("file=")) {
                             Navigator.pop(context);
                             Navigator.push(context,
@@ -220,8 +210,6 @@ class _Mp3DownloaderState extends State<Mp3Downloader> {
                           }
                           return NavigationDecision.navigate;
                         } else {
-                          print(
-                              'Conexion bloqueada a la publicidad to $request}');
                           return NavigationDecision.prevent;
                         }
                       },
@@ -243,13 +231,14 @@ class _Mp3DownloaderState extends State<Mp3Downloader> {
                         _mycontroller.evaluateJavascript(
                             "document.getElementsByTagName('p')[1].style.display='none';");
                         Future.delayed(Duration(seconds: 2)).then((value) {
-                          //_mycontroller.evaluateJavascript("document.querySelector('#search-result > div > div > img').style.display='none';");
                           _mycontroller.evaluateJavascript(
                               "document.getElementById('cnext').style.display='none';");
-                          //_mycontroller.evaluateJavascript("document.getElementsByTagName('p')[2].style.display='none';");
-                          //_mycontroller.evaluateJavascript("document.getElementsByTagName('h3')[0].style.display='none';");
+                          _mycontroller.evaluateJavascript(
+                              "document.getElementById('convert').style.padding='0';");
                           _mycontroller.evaluateJavascript(
                               "document.getElementsByClassName('at-share-btn-elements')[0].style.display='none';");
+                          _mycontroller.evaluateJavascript(
+                              "document.getElementsByClassName('magT10')[0].style.height='30px';");
                         });
                       },
                     ),
@@ -266,16 +255,15 @@ class _Mp3DownloaderState extends State<Mp3Downloader> {
       TutorialItens(
           globalKey: contenedorDownloader,
           touchScreen: true,
-          bottom: 20,
+          bottom: 50,
           left: 50,
           children: [
             Text(
-              //"Seleccione la calidad de audio, una mayor calidad asegura una mejor experiencia pero el tiempo de carga será mayor",
               "Seleccione el boton de descarga para continuar",
               style: TextStyle(color: Colors.white, fontSize: 16),
             ),
             SizedBox(
-              height: 50,
+              height: 30,
             ),
           ],
           widgetNext: Text(
@@ -288,10 +276,5 @@ class _Mp3DownloaderState extends State<Mp3Downloader> {
           ),
           shapeFocus: ShapeFocus.square),
     });
-  }
-
-  void deleteTargets() {
-    _mycontroller.reload();
-    itens.clear();
   }
 }

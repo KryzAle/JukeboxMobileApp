@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
 import 'package:flutter/services.dart';
 import 'package:jukeboxapp/services/emociones_provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'camera.dart';
 
@@ -25,17 +26,14 @@ class _PostVRPhotoState extends State<PostVRPhoto> {
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () {},
-      child: Scaffold(
-        appBar: AppBar(
-          leading: Container(),
-          backgroundColor: Colors.white,
-          centerTitle: true,
-          elevation: 0.0,
-        ),
-        body: _crearBody(),
+    return Scaffold(
+      appBar: AppBar(
+        leading: Container(),
+        backgroundColor: Colors.white,
+        centerTitle: true,
+        elevation: 0.0,
       ),
+      body: _crearBody(),
     );
   }
 
@@ -105,7 +103,9 @@ class _PostVRPhotoState extends State<PostVRPhoto> {
          _mostrarDialog();
           foto = File(result);
           await api.getEmociones(foto);
-          Navigator.popUntil(context, ModalRoute.withName("menu"));
+          _guardarSesion();
+          Navigator.pop(context);
+          Navigator.pushNamedAndRemoveUntil(context, 'charts', ModalRoute.withName("menu"));
       } 
     } catch (e) {
       print(e);
@@ -153,5 +153,10 @@ class _PostVRPhotoState extends State<PostVRPhoto> {
             ),
           );
         });
+  }
+  _guardarSesion() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    int numSesion = prefs.getInt('sesiones')+1;
+    prefs.setInt('sesiones', numSesion);
   }
 }

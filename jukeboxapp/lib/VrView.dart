@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_unity_widget/flutter_unity_widget.dart';
-import 'package:jukeboxapp/screens/testFinal.dart';
 
 /*void main() {
   runApp(MaterialApp(home: UnityDemoScreen()));
@@ -16,8 +14,6 @@ class VrView extends StatefulWidget {
 }
 
 class _VrViewState extends State<VrView> {
-  static final GlobalKey<ScaffoldState> _scaffoldKey =
-      GlobalKey<ScaffoldState>();
   UnityWidgetController _unityWidgetController;
   bool _mostrarBoton = true;
 
@@ -29,53 +25,50 @@ class _VrViewState extends State<VrView> {
   Widget build(BuildContext context) {
     return SafeArea(
       bottom: false,
-      child: WillPopScope(
-        onWillPop: () {},
-        child: Stack(
-          children: <Widget>[
-            UnityWidget(
-              onUnityCreated: onUnityCreated,
-              onUnityMessage: onUnityMessage,
-              onUnitySceneLoaded: onUnitySceneLoaded,
-              isARScene: true,
-              fullscreen: true,
-            ),
-            !_mostrarBoton
-                ? Positioned(
-                    child: Container(
-                      margin: const EdgeInsets.all(10.0),
-                      color: Colors.black,
-                      width: 20.0,
-                      height: 20.0,
-                    ),
-                  )
-                : Positioned(
-                    left: 5.0,
-                    child:
-                        /*ElevatedButton.icon(
-                        label: Text('Iniciar'),
-                        icon: Icon(Icons.play_arrow_outlined),
-                        onPressed: () {
+      child: Stack(
+        children: <Widget>[
+          UnityWidget(
+            onUnityCreated: onUnityCreated,
+            onUnityMessage: onUnityMessage,
+            onUnitySceneLoaded: onUnitySceneLoaded,
+            isARScene: true,
+            fullscreen: true,
+          ),
+          !_mostrarBoton
+              ? Positioned(
+                  child: Container(
+                    margin: const EdgeInsets.all(10.0),
+                    color: Colors.black,
+                    width: 20.0,
+                    height: 20.0,
+                  ),
+                )
+              : Positioned(
+                  left: 5.0,
+                  child:
+                      /*ElevatedButton.icon(
+                      label: Text('Iniciar'),
+                      icon: Icon(Icons.play_arrow_outlined),
+                      onPressed: () {
+                        cambiarCancion(widget.urlMp3);
+                      },
+                    ),*/
+                      ClipOval(
+                    child: Material(
+                      color: Colors.red, // button color
+                      child: InkWell(
+                        child: SizedBox(
+                            width: 40,
+                            height: 40,
+                            child: Icon(Icons.play_arrow_rounded)),
+                        onTap: () {
                           cambiarCancion(widget.urlMp3);
+                          ocultarBoton();
                         },
-                      ),*/
-                        ClipOval(
-                      child: Material(
-                        color: Colors.red, // button color
-                        child: InkWell(
-                          child: SizedBox(
-                              width: 40,
-                              height: 40,
-                              child: Icon(Icons.play_arrow_rounded)),
-                          onTap: () {
-                            cambiarCancion(widget.urlMp3);
-                            ocultarBoton();
-                          },
-                        ),
                       ),
-                    )),
-          ],
-        ),
+                    ),
+                  )),
+        ],
       ),
     );
   }
@@ -103,10 +96,6 @@ class _VrViewState extends State<VrView> {
   }
 
   void onUnityMessage(message) {
-    print('Me llego de unity: ${message.toString()}');
     Navigator.pushReplacementNamed(context, 'postVRPhoto');
-    //_unityWidgetController.quit(silent: true);
-    //_unityWidgetController.dispose();
-    //_unityWidgetController.unload();
   }
 }

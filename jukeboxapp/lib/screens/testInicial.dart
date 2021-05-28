@@ -11,6 +11,7 @@ class TestInicial extends StatefulWidget {
 }
 
 class _TestInicialState extends State<TestInicial> {
+  bool isLoading=true;
   @override
   void initState() {
     super.initState();
@@ -31,17 +32,27 @@ class _TestInicialState extends State<TestInicial> {
           style: TextStyle(color: Colors.black),
         ),
       ),
-      body: WebView(
-        initialUrl:
-            'https://docs.google.com/forms/d/e/1FAIpQLSeh922cSxO7F7_m-5LHmytKX2KI9H1dhjPmd3kwiMnwozrQ4A/viewform?usp=sf_link',
-        javascriptMode: JavascriptMode.unrestricted,
-        gestureNavigationEnabled: true,
-        onPageFinished: (String url) {
-          if (url.contains("formResponse")) {
-            _tokenFormulario("formulariocompletado");
-            Navigator.popAndPushNamed(context, "tomar_foto");
-          }
-        },
+      body: Stack(
+        children: [
+          WebView(
+            initialUrl:
+                'https://docs.google.com/forms/d/e/1FAIpQLSeh922cSxO7F7_m-5LHmytKX2KI9H1dhjPmd3kwiMnwozrQ4A/viewform?usp=sf_link',
+            javascriptMode: JavascriptMode.unrestricted,
+            gestureNavigationEnabled: true,
+            onPageFinished: (String url) {
+              
+              if (url.contains("formResponse")) {
+                _tokenFormulario("formulariocompletado");
+                Navigator.popAndPushNamed(context, "tomar_foto");
+              }else{
+                setState(() {
+                  isLoading=false;
+                });
+              }
+            },
+          ),
+          isLoading? Center(child: CircularProgressIndicator(),) : Stack(),
+        ],
       ),
     );
   }

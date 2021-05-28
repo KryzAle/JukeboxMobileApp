@@ -31,6 +31,8 @@ class _TakePhotoState extends State<TakePhoto> {
 
   Widget _crearBody() {
     return Column(
+      mainAxisSize: MainAxisSize.max,
+      mainAxisAlignment: MainAxisAlignment.start,
       children: [
         Center(
           child: Image(
@@ -97,6 +99,7 @@ class _TakePhotoState extends State<TakePhoto> {
           setState(() {});
           Navigator.pop(context);
           Navigator.pushReplacementNamed(context, "youtube");
+          _mostrarDialogSuccess();
       } 
     } catch (e) {
       print(e);
@@ -141,6 +144,18 @@ class _TakePhotoState extends State<TakePhoto> {
             title: Text("No se ha podido procesar"),
             content: Text(
               "Asegurate que tu rostro se vea claramente en la cámara",
+            ),
+          );
+        });
+  }
+   void _mostrarDialogSuccess() {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text("Exito"),
+            content: Text(
+              "Tu selfie ha sido analizada correctamente, Elige una cancion para continuar",
             ),
           );
         });

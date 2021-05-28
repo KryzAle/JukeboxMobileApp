@@ -26,6 +26,8 @@ class _InstruccionesVRState extends State<InstruccionesVR> {
 
   Widget _crearBody() {
     return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      mainAxisSize: MainAxisSize.max,
       children: [
         Center(
           child: Image(
@@ -33,6 +35,7 @@ class _InstruccionesVRState extends State<InstruccionesVR> {
               'assets/animations/vrman.gif',
             ),
             fit: BoxFit.cover,
+
           ),
         ),
         SizedBox(
