@@ -43,7 +43,7 @@ class _YtSearchState extends State<YtSearch> {
       "J balvin"
     ];
     var rnd = random(0, 6);
-    ytResult = await ytApi.search(artistas[rnd]);
+    ytResult = await ytApi.search(artistas[rnd] + " lyrics");
     setState(() {});
   }
 
@@ -91,7 +91,7 @@ class _YtSearchState extends State<YtSearch> {
                     icon: Icon(Icons.search),
                     onPressed: () {
                       if (myController.text != "") {
-                        callAPI(myController.text);
+                        callAPI(myController.text + " lyrics");
                       }
                       setState(() {
                         myController.text = "";
@@ -171,5 +171,4 @@ class _YtSearchState extends State<YtSearch> {
                   tituloYoutube: titulo,
                 )));
   }
- 
 }

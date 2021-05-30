@@ -8,13 +8,14 @@ import 'package:image/image.dart' as img;
 import 'package:jukeboxapp/model/emociones.dart';
 
 class EmocionesProvider {
-  String _url = "http://142.93.253.80/emociones";
+  String _url = "http://142.93.253.80";
 
   Future getEmociones(File image) async {
     final fullName = await _getFullName();
     File foto = await fixExifRotation(image.path);
     final bytes = foto.readAsBytesSync();
-    var request = new http.MultipartRequest("POST", Uri.parse(_url));
+    var request =
+        new http.MultipartRequest("POST", Uri.parse(_url + "/emociones"));
     request.files
         .add(http.MultipartFile.fromBytes('file', bytes, filename: "file"));
     request.fields["fullname"] = fullName;
@@ -44,6 +45,16 @@ class EmocionesProvider {
     } else {
       throw Exception('Error descargando emociones');
     }
+  }
+
+  Future setSesiones(String url, String titulo) async {
+    String newUrl = _url + "/sesion";
+    final fullName = await _getFullName();
+    var request = await http.post(Uri.parse(newUrl),
+        body: {'fullname': fullName, 'url': url, 'cancion': titulo});
+    if (request.statusCode == 200) {
+      print(request.body);
+    } else {}
   }
 
   Future<File> fixExifRotation(String imagePath) async {

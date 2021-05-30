@@ -1,10 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:jukeboxapp/services/emociones_provider.dart';
 
 import '../VrView.dart';
 
 class InstruccionesVR extends StatefulWidget {
   final String urlMp3;
-  InstruccionesVR({Key key, @required this.urlMp3}) : super(key: key);
+  final String urlYt;
+  final String tituloMp3;
+  InstruccionesVR(
+      {Key key,
+      @required this.urlMp3,
+      @required this.tituloMp3,
+      @required this.urlYt})
+      : super(key: key);
 
   @override
   _InstruccionesVRState createState() => _InstruccionesVRState();
@@ -35,7 +43,6 @@ class _InstruccionesVRState extends State<InstruccionesVR> {
               'assets/animations/vrman.gif',
             ),
             fit: BoxFit.cover,
-
           ),
         ),
         SizedBox(
@@ -119,13 +126,7 @@ class _InstruccionesVRState extends State<InstruccionesVR> {
           width: double.infinity,
           child: ElevatedButton(
             child: Text("Entrar en VR"),
-            onPressed: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context) {
-                return VrView(
-                  urlMp3: widget.urlMp3,
-                );
-              }));
-            },
+            onPressed: () => _guardarSesion(),
             style: ElevatedButton.styleFrom(
                 primary: Colors.deepPurple[300],
                 elevation: 3,
@@ -139,5 +140,15 @@ class _InstruccionesVRState extends State<InstruccionesVR> {
         )
       ],
     );
+  }
+
+  _guardarSesion() async {
+    final apijuke = EmocionesProvider();
+    await apijuke.setSesiones(widget.urlYt, widget.tituloMp3);
+    Navigator.push(context, MaterialPageRoute(builder: (context) {
+      return VrView(
+        urlMp3: widget.urlMp3,
+      );
+    }));
   }
 }

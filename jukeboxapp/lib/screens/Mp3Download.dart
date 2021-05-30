@@ -49,11 +49,11 @@ class _Mp3DownloaderState extends State<Mp3Downloader> {
 
   @override
   void dispose() {
-    if(count!=entrys.length){
+    if (count != entrys.length) {
       Future.delayed(Duration(microseconds: 200)).then((value) {
-      entrys[count].remove();
-      count++;
-    });
+        entrys[count].remove();
+        count++;
+      });
     }
     super.dispose();
   }
@@ -195,7 +195,9 @@ class _Mp3DownloaderState extends State<Mp3Downloader> {
                       gestureNavigationEnabled: false,
                       javascriptMode: JavascriptMode.unrestricted,
                       initialUrl: 'https://yt1s.com/youtube-to-mp3/es?q=' +
-                          widget.idYoutube+'&ab_channel='+widget.canalYoutube,
+                          widget.idYoutube +
+                          '&ab_channel=' +
+                          widget.canalYoutube,
                       navigationDelegate: (NavigationRequest request) {
                         if (request.url.contains('yt1s.com') ||
                             request.url.contains("file=")) {
@@ -205,6 +207,8 @@ class _Mp3DownloaderState extends State<Mp3Downloader> {
                                 MaterialPageRoute(builder: (context) {
                               return InstruccionesVR(
                                 urlMp3: request.url,
+                                tituloMp3: widget.tituloYoutube,
+                                urlYt: widget.idYoutube,
                               );
                             }));
                           }
