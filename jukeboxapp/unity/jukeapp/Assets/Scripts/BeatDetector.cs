@@ -78,8 +78,7 @@ public class BeatDetector : MonoBehaviour
 
     void Start()
     {
-        //cambiarUrl("https://dl22.freemp3downloads.online/file/youtubeKjPfTeCjepM128.mp3?fn=%5BUE4%20Tutorial%5D%20Beat%20Tracking%20using%20FMOD.mp3");
-
+        //cambiarUrl("https://dl254.iijjll.nl/?file=M3R4SUNiN3JsOHJ6WWQ3aTdPRFA4NW1rRVJIOGhQWW1tY1l1emxVQVV1NXQ5NE5rN3VXME1jZ0VBNzRFeU1HV0hzbFI1eTJUT3VDS0lncUR0OU1pUjMvSzFwTWU2bnJ0b29GcmRzOTNYeFh4bXVyb29EaHlqQWk3YzhpZVU3NWZZWEpFczBGMzIzdldudGZOdGdEc3BuK280aCtsWVRSWjkya3RhYkNDMTRZYTJHamZhcm5uM0oxTzRHMk01NWhJeWVTVXRRL0oyck1xcXQxS1UxMS9kcTlKMW8zd3plUHp0VVlMaFpNZDVVbWhwZDJuQ2FFNkdxT1hlajV4TWgwZjRPdnFVeVF0L1NoTTIyVHErWWtTL1M0RVlmTXo3WHFrOE9Ec2NqYVZlNStuR2NQV2VienY4cEN0cE9wMzRsTFg5N2M9");
     }
 
     IEnumerator GetAudioClip(String url)

@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Colision : MonoBehaviour
 {
+    public GameObject explosion;
     // Start is called before the first frame update
     void Start()
     {
@@ -12,8 +13,8 @@ public class Colision : MonoBehaviour
 
     void OnCollisionEnter(Collision collision)
     {
-
-        Destroy(gameObject);
+        Instantiate(explosion,transform.position,collision.transform.rotation);
+        Destroy(gameObject, .02f);
 
     }
     void Update()
